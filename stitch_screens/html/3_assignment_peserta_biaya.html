@@ -1,0 +1,517 @@
+<!DOCTYPE html>
+
+<html lang="id"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Patungan - Manajemen Peserta &amp; Assignment Tagihan</title>
+<!-- Material Symbols Outlined -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Plus Jakarta Sans Font -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          "colors": {
+            "primary-container": "#10b981",
+            "surface-container-highest": "#d3e4fe",
+            "on-surface": "#0b1c30",
+            "outline": "#6c7a71",
+            "secondary-fixed-dim": "#bec6e0",
+            "inverse-on-surface": "#eaf1ff",
+            "error-container": "#ffdad6",
+            "on-primary-fixed": "#002113",
+            "primary": "#006c49",
+            "secondary": "#565e74",
+            "surface-container-low": "#eff4ff",
+            "tertiary-fixed": "#ffddb8",
+            "on-surface-variant": "#3c4a42",
+            "surface-container-high": "#dce9ff",
+            "on-tertiary-fixed-variant": "#653e00",
+            "on-tertiary": "#ffffff",
+            "on-tertiary-fixed": "#2a1700",
+            "on-secondary-fixed-variant": "#3f465c",
+            "background": "#f8f9ff",
+            "primary-fixed-dim": "#4edea3",
+            "error": "#ba1a1a",
+            "on-primary-fixed-variant": "#005236",
+            "on-background": "#0b1c30",
+            "on-secondary-container": "#5c647a",
+            "inverse-surface": "#213145",
+            "surface-variant": "#d3e4fe",
+            "secondary-container": "#dae2fd",
+            "tertiary": "#855300",
+            "on-error-container": "#93000a",
+            "tertiary-container": "#e29100",
+            "on-secondary-fixed": "#131b2e",
+            "secondary-fixed": "#dae2fd",
+            "on-primary-container": "#00422b",
+            "surface-dim": "#cbdbf5",
+            "on-primary": "#ffffff",
+            "on-tertiary-container": "#523200",
+            "surface-container": "#e5eeff",
+            "surface": "#f8f9ff",
+            "on-error": "#ffffff",
+            "surface-container-lowest": "#ffffff",
+            "surface-tint": "#006c49",
+            "outline-variant": "#bbcabf",
+            "inverse-primary": "#4edea3",
+            "tertiary-fixed-dim": "#ffb95f",
+            "surface-bright": "#f8f9ff",
+            "on-secondary": "#ffffff",
+            "primary-fixed": "#6ffbbe"
+          },
+          "borderRadius": {
+            "DEFAULT": "0.25rem",
+            "lg": "0.5rem",
+            "xl": "0.75rem",
+            "full": "9999px"
+          },
+          "spacing": {
+            "margin": "1rem",
+            "space-xl": "2rem",
+            "space-sm": "0.5rem",
+            "space-xs": "0.25rem",
+            "gutter-desktop": "1.5rem",
+            "margin-desktop": "2rem",
+            "space-md": "1rem",
+            "gutter": "1rem",
+            "space-lg": "1.5rem"
+          },
+          "fontFamily": {
+            "headline-xl-mobile": ["Plus Jakarta Sans"],
+            "label-md": ["Plus Jakarta Sans"],
+            "headline-xl": ["Plus Jakarta Sans"],
+            "currency-md": ["Plus Jakarta Sans"],
+            "currency-display": ["Plus Jakarta Sans"],
+            "body-lg": ["Plus Jakarta Sans"],
+            "headline-md": ["Plus Jakarta Sans"],
+            "headline-lg": ["Plus Jakarta Sans"],
+            "label-xs": ["Plus Jakarta Sans"],
+            "body-md": ["Plus Jakarta Sans"],
+            "label-sm": ["Plus Jakarta Sans"],
+            "body-sm": ["Plus Jakarta Sans"],
+            "title-md": ["Plus Jakarta Sans"]
+          },
+          "fontSize": {
+            "headline-xl-mobile": ["28px", { "lineHeight": "36px", "letterSpacing": "-0.02em", "fontWeight": "800" }],
+            "label-md": ["14px", { "lineHeight": "20px", "fontWeight": "600" }],
+            "headline-xl": ["36px", { "lineHeight": "44px", "letterSpacing": "-0.03em", "fontWeight": "800" }],
+            "currency-md": ["16px", { "lineHeight": "24px", "letterSpacing": "-0.01em", "fontWeight": "700" }],
+            "currency-display": ["32px", { "lineHeight": "40px", "letterSpacing": "-0.03em", "fontWeight": "800" }],
+            "body-lg": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+            "headline-md": ["20px", { "lineHeight": "28px", "letterSpacing": "-0.015em", "fontWeight": "700" }],
+            "headline-lg": ["24px", { "lineHeight": "32px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+            "label-xs": ["10px", { "lineHeight": "12px", "letterSpacing": "0.05em", "fontWeight": "700" }],
+            "body-md": ["14px", { "lineHeight": "20px", "fontWeight": "400" }],
+            "label-sm": ["12px", { "lineHeight": "16px", "fontWeight": "600" }],
+            "body-sm": ["12px", { "lineHeight": "16px", "fontWeight": "400" }],
+            "title-md": ["16px", { "lineHeight": "24px", "fontWeight": "600" }]
+          }
+        }
+      }
+    }
+  </script>
+<style>
+    .tabular-num {
+      font-variant-numeric: tabular-nums;
+    }
+    .custom-scroll::-webkit-scrollbar {
+      display: none;
+    }
+    .custom-scroll {
+      -ms-overflow-style: none;
+      scrollbar-width: none;
+    }
+    /* Physical Perforated Receipt Line */
+    .receipt-perforation {
+      background-image: linear-gradient(to right, #cbd5e1 50%, rgba(255,255,255,0) 0%);
+      background-position: bottom;
+      background-size: 8px 1.5px;
+      background-repeat: repeat-x;
+    }
+  </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background text-on-surface antialiased selection:bg-primary-container selection:text-on-primary-container">
+<!-- Main Mobile App Shell Frame -->
+<div class="min-h-screen max-w-md mx-auto bg-surface-bright flex flex-col relative pb-36 shadow-xl">
+<!-- TopAppBar (Based on Shared Components JSON) -->
+<header class="bg-surface dark:bg-inverse-surface border-b border-outline-variant/30 dark:border-outline/20 flex justify-between items-center w-full px-margin py-space-sm max-w-md mx-auto sticky top-0 z-40 transition-colors duration-150">
+<div class="flex items-center gap-2">
+<button aria-label="Kembali" class="w-10 h-10 flex items-center justify-center rounded-xl hover:bg-surface-container-high active:scale-95 transition-all text-primary">
+<span class="material-symbols-outlined text-[22px]">receipt_long</span>
+</button>
+<div>
+<span class="text-headline-md font-headline-md font-extrabold text-primary dark:text-primary-fixed tracking-tight block leading-none">Patungan</span>
+<span class="text-label-xs font-label-xs text-outline tracking-wider font-semibold">Langkah 2 dari 3: Bagi Item</span>
+</div>
+</div>
+<button aria-label="Bagikan Tagihan" class="w-9 h-9 flex items-center justify-center rounded-xl hover:bg-surface-container-high text-primary active:scale-95 transition-all">
+<span class="material-symbols-outlined text-[20px]">share</span>
+</button>
+</header>
+<!-- Main Content Canvas -->
+<main class="flex-1 px-margin pt-space-md space-y-space-md">
+<!-- Step Headline & Quick Overview -->
+<section class="space-y-1">
+<h1 class="text-headline-lg font-headline-lg text-on-surface tracking-tight">Siapa Pesan Apa?</h1>
+<p class="text-body-md font-body-md text-on-surface-variant">Tap peserta lalu tentukan makanan yang mereka nikmati secara adil.</p>
+</section>
+<!-- Participant Manager (Chips Avatar Scrollable) -->
+<section class="space-y-2">
+<div class="flex items-center justify-between">
+<span class="text-label-sm font-label-sm text-outline tracking-wider uppercase">Daftar Peserta (4 Orang)</span>
+<span class="text-label-xs font-label-xs text-primary font-bold">Tap untuk filter</span>
+</div>
+<div class="flex items-center gap-2.5 overflow-x-auto pb-1.5 pt-0.5 custom-scroll -mx-margin px-margin">
+<!-- Arief: Hijau Emerald -->
+<div class="flex-shrink-0 flex items-center gap-2 px-3 py-1.5 rounded-full bg-emerald-50 border-2 border-emerald-500 shadow-sm cursor-pointer active:scale-95 transition-transform">
+<span class="w-6 h-6 rounded-full bg-emerald-600 text-white text-label-xs font-label-xs flex items-center justify-center font-bold">A</span>
+<span class="text-label-md font-label-md text-emerald-950 font-bold">Arief</span>
+<span class="w-2 h-2 rounded-full bg-emerald-500"></span>
+</div>
+<!-- Budi: Biru Indigo -->
+<div class="flex-shrink-0 flex items-center gap-2 px-3 py-1.5 rounded-full bg-indigo-50 border border-indigo-200 shadow-sm cursor-pointer active:scale-95 transition-transform hover:border-indigo-400">
+<span class="w-6 h-6 rounded-full bg-indigo-600 text-white text-label-xs font-label-xs flex items-center justify-center font-bold">B</span>
+<span class="text-label-md font-label-md text-indigo-950 font-bold">Budi</span>
+</div>
+<!-- Citra: Ungu Violet -->
+<div class="flex-shrink-0 flex items-center gap-2 px-3 py-1.5 rounded-full bg-purple-50 border border-purple-200 shadow-sm cursor-pointer active:scale-95 transition-transform hover:border-purple-400">
+<span class="w-6 h-6 rounded-full bg-purple-600 text-white text-label-xs font-label-xs flex items-center justify-center font-bold">C</span>
+<span class="text-label-md font-label-md text-purple-950 font-bold">Citra</span>
+</div>
+<!-- Dina: Oranye Amber -->
+<div class="flex-shrink-0 flex items-center gap-2 px-3 py-1.5 rounded-full bg-amber-50 border border-amber-200 shadow-sm cursor-pointer active:scale-95 transition-transform hover:border-amber-400">
+<span class="w-6 h-6 rounded-full bg-amber-600 text-white text-label-xs font-label-xs flex items-center justify-center font-bold">D</span>
+<span class="text-label-md font-label-md text-amber-950 font-bold">Dina</span>
+</div>
+<!-- Quick Action: + Tambah Teman -->
+<button class="flex-shrink-0 flex items-center gap-1.5 px-3 py-1.5 rounded-full border border-dashed border-outline-variant bg-surface-container-lowest text-on-surface-variant hover:border-primary hover:text-primary transition-all active:scale-95 text-label-sm font-label-sm">
+<span class="material-symbols-outlined text-[18px]">person_add</span>
+<span>+ Teman</span>
+</button>
+</div>
+</section>
+<!-- Assignment Status Bar & Alert Guard -->
+<section class="bg-surface-container-lowest rounded-xl p-3 border border-outline-variant/30 space-y-2.5">
+<div class="flex items-center justify-between text-body-sm font-body-sm">
+<div class="flex items-center gap-1.5 font-bold text-on-surface">
+<span class="material-symbols-outlined text-primary text-[18px]" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+<span>Status Pembagian</span>
+</div>
+<span class="text-label-sm font-label-sm text-primary font-bold">5 dari 6 item sudah dibagi</span>
+</div>
+<!-- Progress Bar -->
+<div class="w-full bg-surface-container h-2 rounded-full overflow-hidden flex">
+<div class="bg-primary h-full rounded-full transition-all duration-300" style="width: 83.3%;"></div>
+</div>
+<!-- Warning Callout Box for Unassigned Item -->
+<div class="flex items-center justify-between bg-amber-50 border border-amber-200 rounded-lg px-2.5 py-1.5">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-amber-700 text-[18px]" style="font-variation-settings: 'FILL' 1;">warning</span>
+<span class="text-label-xs font-label-xs text-amber-900 font-semibold">1 item belum di-assign: <strong class="font-bold">Kentang Goreng</strong></span>
+</div>
+<a class="text-label-xs font-label-xs text-amber-800 underline font-bold active:opacity-75" href="#item-kentang">Tentukan</a>
+</div>
+</section>
+<!-- Daftar Item & Selector Assignment -->
+<section class="space-y-3">
+<div class="flex items-center justify-between">
+<h2 class="text-title-md font-title-md text-on-surface">Daftar Pesanan</h2>
+<span class="text-label-xs font-label-xs text-outline">Tap avatar untuk alokasi</span>
+</div>
+<!-- Card Item 1: Ayam Bakar -> Arief -->
+<div class="bg-surface-container-lowest p-3.5 rounded-xl border border-outline-variant/40 hover:border-primary-container transition-all">
+<div class="flex justify-between items-start gap-2">
+<div class="flex-1">
+<div class="flex items-baseline gap-2">
+<span class="text-label-md font-label-md text-outline font-bold">1x</span>
+<span class="text-headline-md font-headline-md text-on-surface leading-tight text-base font-bold">Ayam Bakar</span>
+</div>
+<p class="text-body-sm font-body-sm text-outline mt-0.5">Makan Utama</p>
+</div>
+<span class="text-currency-md font-currency-md text-on-surface tabular-num">Rp 42.000</span>
+</div>
+<div class="mt-3 pt-2.5 border-t border-outline-variant/20 flex items-center justify-between">
+<span class="text-label-xs font-label-xs text-outline">Dibayar oleh:</span>
+<!-- Assigned Pill for Arief -->
+<div class="flex items-center gap-1.5 bg-emerald-50 px-2.5 py-1 rounded-full border border-emerald-300">
+<span class="w-5 h-5 rounded-full bg-emerald-600 text-white text-[10px] flex items-center justify-center font-bold">A</span>
+<span class="text-label-xs font-label-xs text-emerald-900 font-bold">Arief</span>
+<span class="material-symbols-outlined text-emerald-700 text-[14px]">check</span>
+</div>
+</div>
+</div>
+<!-- Card Item 2: Nasi Goreng & Es Teh -> Budi -->
+<div class="bg-surface-container-lowest p-3.5 rounded-xl border border-outline-variant/40 hover:border-primary-container transition-all space-y-3">
+<div class="flex justify-between items-start gap-2">
+<div class="flex-1">
+<div class="flex items-baseline gap-2">
+<span class="text-label-md font-label-md text-outline font-bold">1x</span>
+<span class="text-headline-md font-headline-md text-on-surface leading-tight text-base font-bold">Nasi Goreng</span>
+</div>
+</div>
+<span class="text-currency-md font-currency-md text-on-surface tabular-num">Rp 28.000</span>
+</div>
+<div class="flex justify-between items-start gap-2">
+<div class="flex-1">
+<div class="flex items-baseline gap-2">
+<span class="text-label-md font-label-md text-outline font-bold">1x</span>
+<span class="text-headline-md font-headline-md text-on-surface leading-tight text-base font-bold">Es Teh Manis</span>
+</div>
+</div>
+<span class="text-currency-md font-currency-md text-on-surface tabular-num">Rp 8.000</span>
+</div>
+<div class="pt-2.5 border-t border-outline-variant/20 flex items-center justify-between">
+<span class="text-label-xs font-label-xs text-outline">Dibayar oleh:</span>
+<div class="flex items-center gap-1.5 bg-indigo-50 px-2.5 py-1 rounded-full border border-indigo-300">
+<span class="w-5 h-5 rounded-full bg-indigo-600 text-white text-[10px] flex items-center justify-center font-bold">B</span>
+<span class="text-label-xs font-label-xs text-indigo-900 font-bold">Budi (Total Rp 36.000)</span>
+<span class="material-symbols-outlined text-indigo-700 text-[14px]">check</span>
+</div>
+</div>
+</div>
+<!-- Card Item 3: Sate Ayam & Es Jeruk -> Citra -->
+<div class="bg-surface-container-lowest p-3.5 rounded-xl border border-outline-variant/40 hover:border-primary-container transition-all space-y-3">
+<div class="flex justify-between items-start gap-2">
+<div class="flex-1">
+<div class="flex items-baseline gap-2">
+<span class="text-label-md font-label-md text-outline font-bold">1x</span>
+<span class="text-headline-md font-headline-md text-on-surface leading-tight text-base font-bold">Sate Ayam (10 tsk)</span>
+</div>
+</div>
+<span class="text-currency-md font-currency-md text-on-surface tabular-num">Rp 35.000</span>
+</div>
+<div class="flex justify-between items-start gap-2">
+<div class="flex-1">
+<div class="flex items-baseline gap-2">
+<span class="text-label-md font-label-md text-outline font-bold">1x</span>
+<span class="text-headline-md font-headline-md text-on-surface leading-tight text-base font-bold">Es Jeruk Murni</span>
+</div>
+</div>
+<span class="text-currency-md font-currency-md text-on-surface tabular-num">Rp 10.000</span>
+</div>
+<div class="pt-2.5 border-t border-outline-variant/20 flex items-center justify-between">
+<span class="text-label-xs font-label-xs text-outline">Dibayar oleh:</span>
+<div class="flex items-center gap-1.5 bg-purple-50 px-2.5 py-1 rounded-full border border-purple-300">
+<span class="w-5 h-5 rounded-full bg-purple-600 text-white text-[10px] flex items-center justify-center font-bold">C</span>
+<span class="text-label-xs font-label-xs text-purple-900 font-bold">Citra (Total Rp 45.000)</span>
+<span class="material-symbols-outlined text-purple-700 text-[14px]">check</span>
+</div>
+</div>
+</div>
+<!-- Card Item 4 (Shared Item): Kentang Goreng (Rp 25.000) with High Attention/Error Prevention -->
+<div class="bg-surface-container-lowest p-3.5 rounded-xl border-2 border-amber-400 shadow-sm relative overflow-hidden" id="item-kentang">
+<div class="absolute top-0 right-0 bg-amber-400 text-amber-950 font-bold text-[9px] px-2 py-0.5 rounded-bl-lg tracking-wider uppercase">
+            Perlu Dibagi
+          </div>
+<div class="flex justify-between items-start gap-2 pt-1">
+<div class="flex-1">
+<div class="flex items-baseline gap-2">
+<span class="text-label-md font-label-md text-amber-700 font-bold">1x</span>
+<span class="text-headline-md font-headline-md text-on-surface leading-tight text-base font-bold">Kentang Goreng Platter</span>
+</div>
+<p class="text-body-sm font-body-sm text-outline mt-0.5">Camilan Bersama (Shared)</p>
+</div>
+<span class="text-currency-md font-currency-md text-on-surface tabular-num">Rp 25.000</span>
+</div>
+<!-- Shared Allocation Selector -->
+<div class="mt-3 pt-2.5 border-t border-dashed border-amber-200 space-y-2">
+<div class="flex items-center justify-between">
+<span class="text-label-xs font-label-xs text-amber-900 font-bold">Opsi Bagi Rata:</span>
+<span class="text-label-xs font-label-xs text-primary font-bold tabular-num">Rp 12.500 / org</span>
+</div>
+<!-- Participant Selection for this shared item -->
+<div class="grid grid-cols-2 gap-2">
+<!-- Arief (Selected) -->
+<button class="flex items-center justify-between px-2.5 py-1.5 rounded-lg bg-emerald-100 border border-emerald-500 text-emerald-950 transition-all">
+<div class="flex items-center gap-1.5">
+<span class="w-5 h-5 rounded-full bg-emerald-600 text-white text-[10px] flex items-center justify-center font-bold">A</span>
+<span class="text-label-xs font-label-xs font-bold">Arief</span>
+</div>
+<span class="material-symbols-outlined text-[16px] text-emerald-700">check_box</span>
+</button>
+<!-- Dina (Selected) -->
+<button class="flex items-center justify-between px-2.5 py-1.5 rounded-lg bg-amber-100 border border-amber-500 text-amber-950 transition-all">
+<div class="flex items-center gap-1.5">
+<span class="w-5 h-5 rounded-full bg-amber-600 text-white text-[10px] flex items-center justify-center font-bold">D</span>
+<span class="text-label-xs font-label-xs font-bold">Dina</span>
+</div>
+<span class="material-symbols-outlined text-[16px] text-amber-800">check_box</span>
+</button>
+</div>
+<!-- Shortcut Button: Bagi Semua Orang -->
+<div class="pt-1 flex justify-end">
+<button class="flex items-center gap-1 text-label-xs font-label-xs text-primary hover:text-on-primary-container bg-primary-container/10 px-2 py-1 rounded-md transition-colors">
+<span class="material-symbols-outlined text-[14px]">groups</span>
+<span>Bagi Rata Semua (4 Orang)</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Card Item 5: Air Mineral (Rp 5.000) -> Dina -->
+<div class="bg-surface-container-lowest p-3.5 rounded-xl border border-outline-variant/40 hover:border-primary-container transition-all">
+<div class="flex justify-between items-start gap-2">
+<div class="flex-1">
+<div class="flex items-baseline gap-2">
+<span class="text-label-md font-label-md text-outline font-bold">1x</span>
+<span class="text-headline-md font-headline-md text-on-surface leading-tight text-base font-bold">Air Mineral Dingin</span>
+</div>
+</div>
+<span class="text-currency-md font-currency-md text-on-surface tabular-num">Rp 5.000</span>
+</div>
+<div class="mt-3 pt-2.5 border-t border-outline-variant/20 flex items-center justify-between">
+<span class="text-label-xs font-label-xs text-outline">Dibayar oleh:</span>
+<div class="flex items-center gap-1.5 bg-amber-50 px-2.5 py-1 rounded-full border border-amber-300">
+<span class="w-5 h-5 rounded-full bg-amber-600 text-white text-[10px] flex items-center justify-center font-bold">D</span>
+<span class="text-label-xs font-label-xs text-amber-900 font-bold">Dina</span>
+<span class="material-symbols-outlined text-amber-700 text-[14px]">check</span>
+</div>
+</div>
+</div>
+</section>
+<!-- Section Pengaturan Pajak, Biaya & Pembulatan (Accordion / Structured Card) -->
+<section class="bg-surface-container-lowest rounded-2xl border border-outline-variant/40 p-4 space-y-4 shadow-sm">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary text-[22px]">tune</span>
+<h2 class="text-title-md font-title-md text-on-surface font-bold">Pajak, Diskon &amp; Pembulatan</h2>
+</div>
+<span class="text-label-xs font-label-xs bg-surface-container text-on-surface-variant px-2 py-0.5 rounded-full">Otomatis Adil</span>
+</div>
+<!-- 1. Pajak PPN / PB1 & Service Charge -->
+<div class="space-y-3 pt-1">
+<div class="flex items-center justify-between">
+<div>
+<span class="text-label-md font-label-md text-on-surface block">Pajak Restoran (PB1 / PPN)</span>
+<span class="text-body-sm font-body-sm text-outline">Proporsional per pesanan item</span>
+</div>
+<div class="flex items-center bg-surface-container-low border border-outline-variant/50 rounded-lg px-2.5 py-1 w-24 justify-between">
+<input class="w-10 bg-transparent text-right font-bold text-on-surface focus:outline-none tabular-num" type="text" value="11"/>
+<span class="text-label-sm font-label-sm text-outline font-bold">%</span>
+</div>
+</div>
+<div class="flex items-center justify-between">
+<div>
+<span class="text-label-md font-label-md text-on-surface block">Biaya Layanan (Service Charge)</span>
+<span class="text-body-sm font-body-sm text-outline">Dihitung sebelum pajak</span>
+</div>
+<div class="flex items-center bg-surface-container-low border border-outline-variant/50 rounded-lg px-2.5 py-1 w-24 justify-between">
+<input class="w-10 bg-transparent text-right font-bold text-on-surface focus:outline-none tabular-num" type="text" value="5"/>
+<span class="text-label-sm font-label-sm text-outline font-bold">%</span>
+</div>
+</div>
+</div>
+<div class="receipt-perforation w-full h-1 my-1"></div>
+<!-- 2. Diskon Voucher & Toggle Proporsional / Bagi Rata -->
+<div class="space-y-2.5">
+<div class="flex items-center justify-between">
+<div>
+<span class="text-label-md font-label-md text-on-surface block">Diskon Promo / Voucher</span>
+<span class="text-body-sm font-body-sm text-outline">Pengurang total tagihan</span>
+</div>
+<div class="flex items-center bg-surface-container-low border border-outline-variant/50 rounded-lg px-2.5 py-1 w-32 justify-between">
+<span class="text-label-xs font-label-xs text-outline font-bold">Rp</span>
+<input class="w-20 bg-transparent text-right font-bold text-on-surface focus:outline-none tabular-num" type="text" value="20.000"/>
+</div>
+</div>
+<!-- Segmented Toggle Switch: Bagi Proporsional vs Bagi Rata -->
+<div class="bg-surface-container p-1 rounded-xl flex items-center text-label-xs font-label-xs">
+<button class="flex-1 py-1.5 rounded-lg bg-surface-container-lowest text-primary font-bold shadow-xs text-center transition-all">
+              Bagi Proporsional
+            </button>
+<button class="flex-1 py-1.5 rounded-lg text-on-surface-variant font-medium text-center hover:text-on-surface transition-all">
+              Bagi Rata (Sama)
+            </button>
+</div>
+</div>
+<div class="receipt-perforation w-full h-1 my-1"></div>
+<!-- 3. Opsi Pembulatan (Largest Remainder Method) -->
+<div class="space-y-2">
+<div class="flex items-center justify-between">
+<span class="text-label-md font-label-md text-on-surface block">Opsi Pembulatan Tunai</span>
+<span class="text-label-xs font-label-xs text-primary font-bold">Largest Remainder</span>
+</div>
+<!-- Radio chips -->
+<div class="grid grid-cols-3 gap-2">
+<label class="flex items-center justify-center p-2 rounded-xl border border-outline-variant/50 text-center cursor-pointer hover:border-primary-container transition-all">
+<input class="hidden" name="pembulatan" type="radio" value="none"/>
+<span class="text-label-xs font-label-xs font-semibold text-on-surface-variant">Tanpa Bulat</span>
+</label>
+<label class="flex items-center justify-center p-2 rounded-xl border border-outline-variant/50 text-center cursor-pointer hover:border-primary-container transition-all">
+<input class="hidden" name="pembulatan" type="radio" value="500"/>
+<span class="text-label-xs font-label-xs font-semibold text-on-surface-variant">Rp 500</span>
+</label>
+<!-- Active Rp 1.000 -->
+<label class="flex items-center justify-center p-2 rounded-xl border-2 border-primary bg-primary-container/10 text-center cursor-pointer shadow-xs">
+<input checked="" class="hidden" name="pembulatan" type="radio" value="1000"/>
+<span class="text-label-xs font-label-xs font-bold text-primary">Rp 1.000</span>
+</label>
+</div>
+<!-- Transparency Notice -->
+<div class="flex items-start gap-1.5 bg-surface-container-low p-2 rounded-lg text-outline">
+<span class="material-symbols-outlined text-[15px] mt-0.5 text-primary">info</span>
+<p class="text-body-sm font-body-sm text-[11px] leading-relaxed">
+              Selisih pembulatan akan dialokasikan secara adil ke orang dengan sisa desimal terbesar agar total akhir tetap 100% pas.
+            </p>
+</div>
+</div>
+</section>
+</main>
+<!-- Sticky Bottom Summary & CTA -->
+<div class="fixed bottom-14 left-0 w-full z-40 px-margin max-w-md mx-auto inset-x-0 pointer-events-none">
+<div class="pointer-events-auto bg-inverse-surface/95 backdrop-blur-md text-inverse-on-surface p-3.5 rounded-2xl shadow-2xl border border-white/10 space-y-3">
+<div class="flex items-center justify-between">
+<div>
+<span class="text-label-xs font-label-xs text-surface-variant tracking-wider uppercase">Ringkasan Estimasi</span>
+<div class="text-body-md font-body-md font-semibold text-white flex items-center gap-1.5">
+<span>4 Orang Terdaftar</span>
+<span class="text-outline-variant">•</span>
+<span class="text-emerald-400 font-bold tabular-num">Rp 177.480</span>
+</div>
+</div>
+<div class="text-right">
+<span class="text-label-xs font-label-xs text-amber-300 bg-amber-950/60 px-2 py-0.5 rounded border border-amber-500/40">
+              Sisa 1 Item
+            </span>
+</div>
+</div>
+<!-- Primary Action Split / Settle Button -->
+<button class="w-full h-[50px] bg-primary-container hover:bg-emerald-600 active:scale-[0.98] text-white font-bold rounded-xl flex items-center justify-center gap-2 shadow-lg transition-all duration-150">
+<span class="text-label-md font-label-md tracking-wide">Lihat Ringkasan &amp; Hitung Final</span>
+<span class="material-symbols-outlined text-[20px]">arrow_forward</span>
+</button>
+</div>
+</div>
+<!-- BottomNavBar (From Shared Components JSON) -->
+<!-- Active State: 'Bagi Rata' (Destination 2) according to screen flow -->
+<nav class="fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-margin py-space-xs max-w-md mx-auto inset-x-0 pb-safe bg-surface-container-lowest dark:bg-inverse-surface shadow-md">
+<!-- Destination 1: Tagihan -->
+<a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-surface-variant px-3 py-1.5 transition-colors duration-150 active:scale-95" href="#">
+<span class="material-symbols-outlined text-[22px]">receipt</span>
+<span class="text-label-xs font-label-xs">Tagihan</span>
+</a>
+<!-- Destination 2: Bagi Rata (ACTIVE) -->
+<a class="flex flex-col items-center justify-center bg-primary-container dark:bg-primary text-on-primary-container dark:text-on-primary rounded-xl px-4 py-1.5 transition-all duration-200 active:scale-95" href="#">
+<span class="material-symbols-outlined text-[22px]" style="font-variation-settings: 'FILL' 1;">group</span>
+<span class="text-label-xs font-label-xs">Bagi Rata</span>
+</a>
+<!-- Destination 3: Rincian -->
+<a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-surface-variant px-3 py-1.5 transition-colors duration-150 active:scale-95" href="#">
+<span class="material-symbols-outlined text-[22px]">payments</span>
+<span class="text-label-xs font-label-xs">Rincian</span>
+</a>
+</nav>
+</div>
+</body></html>

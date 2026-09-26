@@ -1,0 +1,18 @@
+{
+  "name": "patungan-split-bill",
+  "version": "1.0.0",
+  "description": "Kalkulator split bill adil dengan pembagian pajak/service proporsional dan largest-remainder rounding",
+  "type": "module",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js"
+  },
+  "keywords": [
+    "split-bill",
+    "patungan",
+    "receipt-ocr",
+    "indonesia"
+  ],
+  "author": "",
+  "license": "MIT"
+}

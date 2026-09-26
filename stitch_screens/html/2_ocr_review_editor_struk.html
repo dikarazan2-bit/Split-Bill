@@ -1,0 +1,548 @@
+<!DOCTYPE html>
+
+<html lang="id"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Patungan - OCR Review &amp; Item Editor</title>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          "colors": {
+            "primary-container": "#10b981",
+            "surface-container-highest": "#d3e4fe",
+            "on-surface": "#0b1c30",
+            "outline": "#6c7a71",
+            "secondary-fixed-dim": "#bec6e0",
+            "inverse-on-surface": "#eaf1ff",
+            "error-container": "#ffdad6",
+            "on-primary-fixed": "#002113",
+            "primary": "#006c49",
+            "secondary": "#565e74",
+            "surface-container-low": "#eff4ff",
+            "tertiary-fixed": "#ffddb8",
+            "on-surface-variant": "#3c4a42",
+            "surface-container-high": "#dce9ff",
+            "on-tertiary-fixed-variant": "#653e00",
+            "on-tertiary": "#ffffff",
+            "on-tertiary-fixed": "#2a1700",
+            "on-secondary-fixed-variant": "#3f465c",
+            "background": "#f8f9ff",
+            "primary-fixed-dim": "#4edea3",
+            "error": "#ba1a1a",
+            "on-primary-fixed-variant": "#005236",
+            "on-background": "#0b1c30",
+            "on-secondary-container": "#5c647a",
+            "inverse-surface": "#213145",
+            "surface-variant": "#d3e4fe",
+            "secondary-container": "#dae2fd",
+            "tertiary": "#855300",
+            "on-error-container": "#93000a",
+            "tertiary-container": "#e29100",
+            "on-secondary-fixed": "#131b2e",
+            "secondary-fixed": "#dae2fd",
+            "on-primary-container": "#00422b",
+            "surface-dim": "#cbdbf5",
+            "on-primary": "#ffffff",
+            "on-tertiary-container": "#523200",
+            "surface-container": "#e5eeff",
+            "surface": "#f8f9ff",
+            "on-error": "#ffffff",
+            "surface-container-lowest": "#ffffff",
+            "surface-tint": "#006c49",
+            "outline-variant": "#bbcabf",
+            "inverse-primary": "#4edea3",
+            "tertiary-fixed-dim": "#ffb95f",
+            "surface-bright": "#f8f9ff",
+            "on-secondary": "#ffffff",
+            "primary-fixed": "#6ffbbe"
+          },
+          "borderRadius": {
+            "DEFAULT": "0.25rem",
+            "lg": "0.5rem",
+            "xl": "0.75rem",
+            "full": "9999px"
+          },
+          "spacing": {
+            "margin": "1rem",
+            "space-xl": "2rem",
+            "space-sm": "0.5rem",
+            "space-xs": "0.25rem",
+            "gutter-desktop": "1.5rem",
+            "margin-desktop": "2rem",
+            "space-md": "1rem",
+            "gutter": "1rem",
+            "space-lg": "1.5rem"
+          },
+          "fontFamily": {
+            "headline-xl-mobile": ["Plus Jakarta Sans"],
+            "label-md": ["Plus Jakarta Sans"],
+            "headline-xl": ["Plus Jakarta Sans"],
+            "currency-md": ["Plus Jakarta Sans"],
+            "currency-display": ["Plus Jakarta Sans"],
+            "body-lg": ["Plus Jakarta Sans"],
+            "headline-md": ["Plus Jakarta Sans"],
+            "headline-lg": ["Plus Jakarta Sans"],
+            "label-xs": ["Plus Jakarta Sans"],
+            "body-md": ["Plus Jakarta Sans"],
+            "label-sm": ["Plus Jakarta Sans"],
+            "body-sm": ["Plus Jakarta Sans"],
+            "title-md": ["Plus Jakarta Sans"]
+          },
+          "fontSize": {
+            "headline-xl-mobile": ["28px", { "lineHeight": "36px", "letterSpacing": "-0.02em", "fontWeight": "800" }],
+            "label-md": ["14px", { "lineHeight": "20px", "fontWeight": "600" }],
+            "headline-xl": ["36px", { "lineHeight": "44px", "letterSpacing": "-0.03em", "fontWeight": "800" }],
+            "currency-md": ["16px", { "lineHeight": "24px", "letterSpacing": "-0.01em", "fontWeight": "700" }],
+            "currency-display": ["32px", { "lineHeight": "40px", "letterSpacing": "-0.03em", "fontWeight": "800" }],
+            "body-lg": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+            "headline-md": ["20px", { "lineHeight": "28px", "letterSpacing": "-0.015em", "fontWeight": "700" }],
+            "headline-lg": ["24px", { "lineHeight": "32px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+            "label-xs": ["10px", { "lineHeight": "12px", "letterSpacing": "0.05em", "fontWeight": "700" }],
+            "body-md": ["14px", { "lineHeight": "20px", "fontWeight": "400" }],
+            "label-sm": ["12px", { "lineHeight": "16px", "fontWeight": "600" }],
+            "body-sm": ["12px", { "lineHeight": "16px", "fontWeight": "400" }],
+            "title-md": ["16px", { "lineHeight": "24px", "fontWeight": "600" }]
+          }
+        }
+      }
+    }
+  </script>
+<style>
+    .material-symbols-outlined {
+      font-variation-settings: 'FILL' 0, 'wght' 500, 'GRAD' 0, 'opsz' 24;
+      line-height: 1;
+    }
+    .material-symbols-fill {
+      font-variation-settings: 'FILL' 1, 'wght' 600, 'GRAD' 0, 'opsz' 24;
+    }
+    .perforated-border {
+      border-bottom: 2px dashed #bbcabf;
+    }
+    .tabular-nums {
+      font-variant-numeric: tabular-nums;
+    }
+  </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background text-on-surface antialiased min-h-screen pb-32">
+<!-- Top App Bar (Task-Focused Step Shell) -->
+<header class="bg-surface text-primary w-full px-margin py-space-sm max-w-md mx-auto sticky top-0 z-40 shadow-sm flex items-center justify-between">
+<div class="flex items-center gap-space-sm">
+<button aria-label="Kembali" class="w-10 h-10 rounded-full flex items-center justify-center hover:bg-surface-container-high transition-colors active:scale-95 text-on-surface" type="button">
+<span class="material-symbols-outlined text-primary" data-icon="receipt_long">receipt_long</span>
+</button>
+<div>
+<h1 class="font-headline-md text-headline-md font-extrabold text-on-surface leading-none">Review Hasil Scan</h1>
+<div class="flex items-center gap-1.5 mt-0.5">
+<span class="w-1.5 h-1.5 rounded-full bg-primary-container"></span>
+<p class="font-label-xs text-label-xs text-on-surface-variant font-bold">Langkah 1 dari 3: Koreksi Item</p>
+</div>
+</div>
+</div>
+<div class="flex items-center gap-1">
+<button class="w-10 h-10 rounded-full flex items-center justify-center hover:bg-surface-container-high transition-colors active:scale-95 text-on-surface-variant" title="Bagikan Struk" type="button">
+<span class="material-symbols-outlined" data-icon="share">share</span>
+</button>
+</div>
+</header>
+<main class="max-w-md mx-auto px-margin pt-space-sm space-y-space-md">
+<!-- Progress Indicator Bar -->
+<div class="w-full bg-surface-container rounded-full h-1.5 overflow-hidden flex">
+<div class="bg-primary-container h-full w-1/3 rounded-full transition-all duration-300"></div>
+</div>
+<!-- Alert / Banner Info Penting -->
+<div class="bg-tertiary-fixed/40 border border-tertiary/20 rounded-xl p-space-sm flex items-start gap-3">
+<span class="material-symbols-outlined text-tertiary mt-0.5" data-icon="warning">warning</span>
+<div class="flex-1">
+<p class="font-label-sm text-label-sm text-on-tertiary-fixed font-bold">Periksa hasil scan struk!</p>
+<p class="font-body-sm text-body-sm text-on-tertiary-fixed-variant leading-tight mt-0.5">
+          Struk thermal kadang buram. Cek kembali item yang ditandai kuning untuk akurasi nominal.
+        </p>
+</div>
+<button class="text-on-tertiary-fixed-variant hover:text-on-tertiary-fixed text-xs self-start" onclick="this.parentElement.remove()" type="button">
+<span class="material-symbols-outlined text-base" data-icon="close">close</span>
+</button>
+</div>
+<!-- Ringkasan Scan Otomatis & Merchant Metadata -->
+<div class="bg-surface-container-lowest rounded-xl p-space-md border border-outline-variant/30 flex items-center justify-between shadow-sm">
+<div class="flex items-center gap-3">
+<div class="w-11 h-11 rounded-xl bg-surface-container-low flex items-center justify-center text-primary">
+<span class="material-symbols-outlined text-2xl" data-icon="storefront">storefront</span>
+</div>
+<div>
+<h2 class="font-title-md text-title-md font-bold text-on-surface">Restoran Padang Garuda</h2>
+<div class="flex items-center gap-2 text-on-surface-variant font-label-xs text-label-xs">
+<span class="inline-flex items-center gap-0.5 text-primary font-bold">
+<span class="material-symbols-outlined text-sm material-symbols-fill" data-icon="verified">verified</span>
+              7 Item terbaca
+            </span>
+<span>•</span>
+<span>OCR AI v2.4</span>
+</div>
+</div>
+</div>
+<button class="text-primary hover:bg-surface-container-low px-2 py-1.5 rounded-lg font-label-sm text-label-sm font-bold flex items-center gap-1 active:scale-95 transition-all">
+<span class="material-symbols-outlined text-sm" data-icon="edit">edit</span>
+        Ubah
+      </button>
+</div>
+<!-- Section Header Item List -->
+<div class="flex items-center justify-between pt-1">
+<div class="flex items-center gap-2">
+<span class="font-title-md text-title-md font-bold text-on-surface">Daftar Menu &amp; Minuman</span>
+<span class="bg-secondary-container text-on-secondary-fixed font-label-xs text-label-xs px-2 py-0.5 rounded-full font-bold">6 Jenis</span>
+</div>
+<span class="font-label-xs text-label-xs text-on-surface-variant font-medium">Geser / Ubah Jumlah</span>
+</div>
+<!-- Item Cards Container -->
+<div class="space-y-space-sm" id="item-list">
+<!-- Item 1: Ayam Bakar Taliwang -->
+<div class="bg-surface-container-lowest rounded-xl p-space-sm border border-outline-variant/30 hover:border-outline-variant transition-all shadow-sm">
+<div class="flex items-start justify-between gap-2">
+<div class="flex-1">
+<div class="flex items-center gap-1.5">
+<h3 class="font-title-md text-title-md font-bold text-on-surface">Ayam Bakar Taliwang</h3>
+<span class="inline-flex items-center px-1.5 py-0.5 rounded text-[10px] font-bold bg-primary-fixed text-on-primary-fixed-variant">
+<span class="material-symbols-outlined text-[12px] mr-0.5 material-symbols-fill" data-icon="check_circle">check_circle</span>
+                Cocok
+              </span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant tabular-nums mt-0.5">
+              Rp 42.000 / porsi
+            </p>
+</div>
+<div class="text-right">
+<div class="font-currency-md text-currency-md font-extrabold text-on-surface tabular-nums">
+              Rp 84.000
+            </div>
+<span class="font-label-xs text-label-xs text-outline font-medium">Subtotal</span>
+</div>
+</div>
+<div class="mt-space-sm pt-space-xs border-t border-surface-container flex items-center justify-between">
+<div class="flex items-center bg-surface-container-low rounded-lg p-0.5">
+<button class="w-7 h-7 rounded flex items-center justify-center hover:bg-surface-container text-on-surface-variant active:scale-90 transition-transform" type="button">
+<span class="material-symbols-outlined text-sm" data-icon="remove">remove</span>
+</button>
+<span class="w-8 text-center font-label-md text-label-md font-bold text-on-surface tabular-nums">2</span>
+<button class="w-7 h-7 rounded flex items-center justify-center hover:bg-surface-container text-on-surface-variant active:scale-90 transition-transform" type="button">
+<span class="material-symbols-outlined text-sm" data-icon="add">add</span>
+</button>
+</div>
+<div class="flex items-center gap-1">
+<button class="w-8 h-8 rounded-lg flex items-center justify-center text-outline hover:text-primary hover:bg-surface-container-low transition-colors" title="Edit Harga / Nama" type="button">
+<span class="material-symbols-outlined text-base" data-icon="edit">edit</span>
+</button>
+<button class="w-8 h-8 rounded-lg flex items-center justify-center text-outline hover:text-error hover:bg-error-container/20 transition-colors" title="Hapus Item" type="button">
+<span class="material-symbols-outlined text-base" data-icon="delete">delete</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Item 2: Nasi Goreng Spesial -->
+<div class="bg-surface-container-lowest rounded-xl p-space-sm border border-outline-variant/30 hover:border-outline-variant transition-all shadow-sm">
+<div class="flex items-start justify-between gap-2">
+<div class="flex-1">
+<div class="flex items-center gap-1.5">
+<h3 class="font-title-md text-title-md font-bold text-on-surface">Nasi Goreng Spesial</h3>
+<span class="inline-flex items-center px-1.5 py-0.5 rounded text-[10px] font-bold bg-primary-fixed text-on-primary-fixed-variant">
+<span class="material-symbols-outlined text-[12px] mr-0.5 material-symbols-fill" data-icon="check_circle">check_circle</span>
+                Cocok
+              </span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant tabular-nums mt-0.5">
+              Rp 28.000 / porsi
+            </p>
+</div>
+<div class="text-right">
+<div class="font-currency-md text-currency-md font-extrabold text-on-surface tabular-nums">
+              Rp 28.000
+            </div>
+<span class="font-label-xs text-label-xs text-outline font-medium">Subtotal</span>
+</div>
+</div>
+<div class="mt-space-sm pt-space-xs border-t border-surface-container flex items-center justify-between">
+<div class="flex items-center bg-surface-container-low rounded-lg p-0.5">
+<button class="w-7 h-7 rounded flex items-center justify-center hover:bg-surface-container text-on-surface-variant active:scale-90 transition-transform" type="button">
+<span class="material-symbols-outlined text-sm" data-icon="remove">remove</span>
+</button>
+<span class="w-8 text-center font-label-md text-label-md font-bold text-on-surface tabular-nums">1</span>
+<button class="w-7 h-7 rounded flex items-center justify-center hover:bg-surface-container text-on-surface-variant active:scale-90 transition-transform" type="button">
+<span class="material-symbols-outlined text-sm" data-icon="add">add</span>
+</button>
+</div>
+<div class="flex items-center gap-1">
+<button class="w-8 h-8 rounded-lg flex items-center justify-center text-outline hover:text-primary hover:bg-surface-container-low transition-colors" type="button">
+<span class="material-symbols-outlined text-base" data-icon="edit">edit</span>
+</button>
+<button class="w-8 h-8 rounded-lg flex items-center justify-center text-outline hover:text-error hover:bg-error-container/20 transition-colors" type="button">
+<span class="material-symbols-outlined text-base" data-icon="delete">delete</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Item 3: Es Teh Manis -->
+<div class="bg-surface-container-lowest rounded-xl p-space-sm border border-outline-variant/30 hover:border-outline-variant transition-all shadow-sm">
+<div class="flex items-start justify-between gap-2">
+<div class="flex-1">
+<div class="flex items-center gap-1.5">
+<h3 class="font-title-md text-title-md font-bold text-on-surface">Es Teh Manis</h3>
+<span class="inline-flex items-center px-1.5 py-0.5 rounded text-[10px] font-bold bg-primary-fixed text-on-primary-fixed-variant">
+<span class="material-symbols-outlined text-[12px] mr-0.5 material-symbols-fill" data-icon="check_circle">check_circle</span>
+                Cocok
+              </span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant tabular-nums mt-0.5">
+              Rp 8.000 / gelas
+            </p>
+</div>
+<div class="text-right">
+<div class="font-currency-md text-currency-md font-extrabold text-on-surface tabular-nums">
+              Rp 16.000
+            </div>
+<span class="font-label-xs text-label-xs text-outline font-medium">Subtotal</span>
+</div>
+</div>
+<div class="mt-space-sm pt-space-xs border-t border-surface-container flex items-center justify-between">
+<div class="flex items-center bg-surface-container-low rounded-lg p-0.5">
+<button class="w-7 h-7 rounded flex items-center justify-center hover:bg-surface-container text-on-surface-variant active:scale-90 transition-transform" type="button">
+<span class="material-symbols-outlined text-sm" data-icon="remove">remove</span>
+</button>
+<span class="w-8 text-center font-label-md text-label-md font-bold text-on-surface tabular-nums">2</span>
+<button class="w-7 h-7 rounded flex items-center justify-center hover:bg-surface-container text-on-surface-variant active:scale-90 transition-transform" type="button">
+<span class="material-symbols-outlined text-sm" data-icon="add">add</span>
+</button>
+</div>
+<div class="flex items-center gap-1">
+<button class="w-8 h-8 rounded-lg flex items-center justify-center text-outline hover:text-primary hover:bg-surface-container-low transition-colors" type="button">
+<span class="material-symbols-outlined text-base" data-icon="edit">edit</span>
+</button>
+<button class="w-8 h-8 rounded-lg flex items-center justify-center text-outline hover:text-error hover:bg-error-container/20 transition-colors" type="button">
+<span class="material-symbols-outlined text-base" data-icon="delete">delete</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Item 4 (LOW CONFIDENCE / AMBER HIGHLIGHT sesuai PRD §6.1.5) -->
+<div class="bg-surface-container-lowest rounded-xl p-space-sm border-2 border-tertiary-container shadow-md relative overflow-hidden ring-2 ring-tertiary-fixed/60">
+<div class="absolute -top-3 -right-3 w-16 h-16 bg-tertiary-fixed/40 rounded-full blur-lg pointer-events-none"></div>
+<div class="flex items-start justify-between gap-2">
+<div class="flex-1">
+<div class="flex flex-wrap items-center gap-1.5 mb-1">
+<span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs font-bold bg-tertiary-fixed text-on-tertiary-fixed">
+<span class="material-symbols-outlined text-[13px] text-tertiary" data-icon="warning">warning</span>
+                Perlu Cek (OCR 64%)
+              </span>
+<span class="font-label-xs text-label-xs text-on-tertiary-fixed-variant">Teks struk buram</span>
+</div>
+<!-- Inline Quick Edit Field for Item Name -->
+<div class="flex items-center gap-2 mt-1">
+<input class="w-full bg-surface-container-low border border-tertiary-container text-on-surface font-title-md text-title-md font-bold rounded-lg px-2.5 py-1 focus:ring-2 focus:ring-primary focus:outline-none" placeholder="Nama menu..." type="text" value="Kentang Goreng"/>
+</div>
+<p class="font-label-xs text-label-xs text-outline mt-1 italic">
+              Teks OCR asli: <span class="line-through text-on-surface-variant font-mono">Kntng Gorng</span>
+</p>
+</div>
+<!-- Price Input Field -->
+<div class="text-right min-w-[110px]">
+<label class="font-label-xs text-label-xs text-outline block font-medium">Harga Satuan</label>
+<div class="relative mt-0.5">
+<span class="absolute left-2 top-1.5 font-label-sm text-label-sm font-bold text-on-surface-variant">Rp</span>
+<input class="w-full bg-surface-container-low border border-tertiary-container text-on-surface font-currency-md text-currency-md font-extrabold rounded-lg pl-8 pr-2 py-1 text-right tabular-nums focus:ring-2 focus:ring-primary focus:outline-none" type="text" value="25.000"/>
+</div>
+</div>
+</div>
+<div class="mt-space-sm pt-space-xs border-t border-tertiary-fixed/40 flex items-center justify-between">
+<div class="flex items-center bg-surface-container-low rounded-lg p-0.5">
+<button class="w-7 h-7 rounded flex items-center justify-center hover:bg-surface-container text-on-surface-variant active:scale-90 transition-transform" type="button">
+<span class="material-symbols-outlined text-sm" data-icon="remove">remove</span>
+</button>
+<span class="w-8 text-center font-label-md text-label-md font-bold text-on-surface tabular-nums">1</span>
+<button class="w-7 h-7 rounded flex items-center justify-center hover:bg-surface-container text-on-surface-variant active:scale-90 transition-transform" type="button">
+<span class="material-symbols-outlined text-sm" data-icon="add">add</span>
+</button>
+</div>
+<div class="flex items-center gap-2">
+<button class="bg-primary hover:bg-primary-container text-on-primary px-3 py-1 rounded-lg font-label-sm text-label-sm font-bold flex items-center gap-1 active:scale-95 transition-all" type="button">
+<span class="material-symbols-outlined text-xs material-symbols-fill" data-icon="check">check</span>
+              Konfirmasi
+            </button>
+<button class="w-8 h-8 rounded-lg flex items-center justify-center text-outline hover:text-error hover:bg-error-container/20 transition-colors" type="button">
+<span class="material-symbols-outlined text-base" data-icon="delete">delete</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Item 5: Sate Ayam 10 Tsk -->
+<div class="bg-surface-container-lowest rounded-xl p-space-sm border border-outline-variant/30 hover:border-outline-variant transition-all shadow-sm">
+<div class="flex items-start justify-between gap-2">
+<div class="flex-1">
+<div class="flex items-center gap-1.5">
+<h3 class="font-title-md text-title-md font-bold text-on-surface">Sate Ayam (10 Tusuk)</h3>
+<span class="inline-flex items-center px-1.5 py-0.5 rounded text-[10px] font-bold bg-primary-fixed text-on-primary-fixed-variant">
+<span class="material-symbols-outlined text-[12px] mr-0.5 material-symbols-fill" data-icon="check_circle">check_circle</span>
+                Cocok
+              </span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant tabular-nums mt-0.5">
+              Rp 35.000 / porsi
+            </p>
+</div>
+<div class="text-right">
+<div class="font-currency-md text-currency-md font-extrabold text-on-surface tabular-nums">
+              Rp 35.000
+            </div>
+<span class="font-label-xs text-label-xs text-outline font-medium">Subtotal</span>
+</div>
+</div>
+<div class="mt-space-sm pt-space-xs border-t border-surface-container flex items-center justify-between">
+<div class="flex items-center bg-surface-container-low rounded-lg p-0.5">
+<button class="w-7 h-7 rounded flex items-center justify-center hover:bg-surface-container text-on-surface-variant active:scale-90 transition-transform" type="button">
+<span class="material-symbols-outlined text-sm" data-icon="remove">remove</span>
+</button>
+<span class="w-8 text-center font-label-md text-label-md font-bold text-on-surface tabular-nums">1</span>
+<button class="w-7 h-7 rounded flex items-center justify-center hover:bg-surface-container text-on-surface-variant active:scale-90 transition-transform" type="button">
+<span class="material-symbols-outlined text-sm" data-icon="add">add</span>
+</button>
+</div>
+<div class="flex items-center gap-1">
+<button class="w-8 h-8 rounded-lg flex items-center justify-center text-outline hover:text-primary hover:bg-surface-container-low transition-colors" type="button">
+<span class="material-symbols-outlined text-base" data-icon="edit">edit</span>
+</button>
+<button class="w-8 h-8 rounded-lg flex items-center justify-center text-outline hover:text-error hover:bg-error-container/20 transition-colors" type="button">
+<span class="material-symbols-outlined text-base" data-icon="delete">delete</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Item 6: Air Mineral 600ml -->
+<div class="bg-surface-container-lowest rounded-xl p-space-sm border border-outline-variant/30 hover:border-outline-variant transition-all shadow-sm">
+<div class="flex items-start justify-between gap-2">
+<div class="flex-1">
+<div class="flex items-center gap-1.5">
+<h3 class="font-title-md text-title-md font-bold text-on-surface">Air Mineral 600ml</h3>
+<span class="inline-flex items-center px-1.5 py-0.5 rounded text-[10px] font-bold bg-primary-fixed text-on-primary-fixed-variant">
+<span class="material-symbols-outlined text-[12px] mr-0.5 material-symbols-fill" data-icon="check_circle">check_circle</span>
+                Cocok
+              </span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant tabular-nums mt-0.5">
+              Rp 5.000 / botol
+            </p>
+</div>
+<div class="text-right">
+<div class="font-currency-md text-currency-md font-extrabold text-on-surface tabular-nums">
+              Rp 5.000
+            </div>
+<span class="font-label-xs text-label-xs text-outline font-medium">Subtotal</span>
+</div>
+</div>
+<div class="mt-space-sm pt-space-xs border-t border-surface-container flex items-center justify-between">
+<div class="flex items-center bg-surface-container-low rounded-lg p-0.5">
+<button class="w-7 h-7 rounded flex items-center justify-center hover:bg-surface-container text-on-surface-variant active:scale-90 transition-transform" type="button">
+<span class="material-symbols-outlined text-sm" data-icon="remove">remove</span>
+</button>
+<span class="w-8 text-center font-label-md text-label-md font-bold text-on-surface tabular-nums">1</span>
+<button class="w-7 h-7 rounded flex items-center justify-center hover:bg-surface-container text-on-surface-variant active:scale-90 transition-transform" type="button">
+<span class="material-symbols-outlined text-sm" data-icon="add">add</span>
+</button>
+</div>
+<div class="flex items-center gap-1">
+<button class="w-8 h-8 rounded-lg flex items-center justify-center text-outline hover:text-primary hover:bg-surface-container-low transition-colors" type="button">
+<span class="material-symbols-outlined text-base" data-icon="edit">edit</span>
+</button>
+<button class="w-8 h-8 rounded-lg flex items-center justify-center text-outline hover:text-error hover:bg-error-container/20 transition-colors" type="button">
+<span class="material-symbols-outlined text-base" data-icon="delete">delete</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+<!-- Tombol Tambah Item Manual -->
+<button class="w-full py-3 px-4 rounded-xl border-2 border-dashed border-primary-container bg-surface-container-low text-primary hover:bg-primary-fixed/30 font-label-md text-label-md font-bold flex items-center justify-center gap-2 active:scale-[0.99] transition-all" type="button">
+<span class="material-symbols-outlined" data-icon="add_circle">add_circle</span>
+      Tambah Item Manual
+    </button>
+<!-- Card Deteksi Biaya Otomatis (Perforated Receipt Style) -->
+<div class="bg-surface-container-lowest rounded-xl border border-outline-variant/30 overflow-hidden shadow-sm relative">
+<!-- Half-moon punch left and right -->
+<div class="absolute -left-2 top-28 w-4 h-4 rounded-full bg-background border-r border-outline-variant/30"></div>
+<div class="absolute -right-2 top-28 w-4 h-4 rounded-full bg-background border-l border-outline-variant/30"></div>
+<div class="p-space-md space-y-space-sm">
+<div class="flex items-center justify-between text-on-surface-variant font-label-sm text-label-sm font-semibold">
+<span>Subtotal 6 Item</span>
+<span class="text-on-surface font-currency-md text-currency-md tabular-nums font-bold">Rp 193.000</span>
+</div>
+<!-- Pajak Resto PB1 -->
+<div class="flex items-center justify-between text-on-surface-variant font-label-sm text-label-sm">
+<div class="flex items-center gap-1.5">
+<span class="material-symbols-outlined text-base text-primary" data-icon="receipt">receipt</span>
+<span>Pajak Restoran (PB1 10%)</span>
+<button class="text-xs text-primary hover:underline font-bold" title="Ubah persentase pajak" type="button">Edit</button>
+</div>
+<span class="text-on-surface tabular-nums font-semibold">+ Rp 19.300</span>
+</div>
+<!-- Service Charge -->
+<div class="flex items-center justify-between text-on-surface-variant font-label-sm text-label-sm">
+<div class="flex items-center gap-1.5">
+<span class="material-symbols-outlined text-base text-secondary" data-icon="room_service">room_service</span>
+<span>Service Charge (5%)</span>
+<button class="text-xs text-primary hover:underline font-bold" title="Ubah persentase service" type="button">Edit</button>
+</div>
+<span class="text-on-surface tabular-nums font-semibold">+ Rp 9.650</span>
+</div>
+<!-- Diskon / Pembulatan (Optional toggle) -->
+<div class="flex items-center justify-between text-on-surface-variant font-body-sm text-body-sm pt-1">
+<span class="text-outline font-medium">Pembulatan Nominal</span>
+<span class="text-outline tabular-nums">Rp 0</span>
+</div>
+</div>
+<!-- Perforation Divider -->
+<div class="perforated-border mx-3"></div>
+<!-- Total Preview -->
+<div class="p-space-md bg-surface-container-low/50 flex items-center justify-between">
+<div>
+<span class="font-label-xs text-label-xs text-on-surface-variant font-bold uppercase tracking-wider block">Total Struk Terkalkulasi</span>
+<span class="font-currency-display text-headline-md font-extrabold text-primary tabular-nums">Rp 221.950</span>
+</div>
+<div class="flex items-center gap-1 px-2.5 py-1 rounded-full bg-primary-fixed text-on-primary-fixed-variant font-label-xs text-label-xs font-bold">
+<span class="material-symbols-outlined text-sm material-symbols-fill" data-icon="check_circle">check_circle</span>
+          Hitungan Sesuai
+        </div>
+</div>
+</div>
+<!-- Bantuan / Petunjuk Footer -->
+<div class="text-center pb-6">
+<p class="font-body-sm text-body-sm text-on-surface-variant">
+        Ada menu yang terlewat atau salah potong harga? Kamu tetap bisa merincinya di langkah pembagian peserta.
+      </p>
+</div>
+</main>
+<!-- Sticky Bottom Summary & Primary CTA (Bottom Floating Container Surface 2) -->
+<footer class="fixed bottom-0 left-0 w-full z-50 bg-surface-container-lowest border-t border-outline-variant/30 shadow-[0_-8px_24px_-4px_rgba(15,23,42,0.08)]">
+<div class="max-w-md mx-auto px-margin py-space-sm flex items-center justify-between gap-3">
+<div class="flex flex-col">
+<span class="font-label-xs text-label-xs text-on-surface-variant font-bold uppercase tracking-wider">Total Struk</span>
+<div class="flex items-baseline gap-1">
+<span class="font-currency-md text-headline-md font-extrabold text-on-surface tabular-nums">Rp 221.950</span>
+</div>
+<span class="font-label-xs text-label-xs text-primary font-semibold">Termasuk PB1 &amp; Service</span>
+</div>
+<button class="flex-1 max-w-[240px] h-12 bg-primary-container hover:bg-primary text-on-primary-container font-label-md text-label-md font-bold rounded-xl flex items-center justify-center gap-1.5 shadow-md active:scale-95 transition-all" type="button">
+<span>Lanjut: Bagi Rata</span>
+<span class="material-symbols-outlined text-base" data-icon="arrow_forward">arrow_forward</span>
+</button>
+</div>
+</footer>
+</body></html>

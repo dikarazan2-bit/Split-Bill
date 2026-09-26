@@ -1,0 +1,858 @@
+<!DOCTYPE html>
+<html lang="id" class="light">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+  <title>Patungan - Split Bill Cepat, Adil & Tanpa Ribet</title>
+  <meta name="description" content="Kalkulator split bill adil dengan pembagian pajak & service proporsional, pembulatan presisi largest-remainder, tanpa login, dan bagikan langsung via WhatsApp/link."/>
+  
+  <!-- Google Fonts & Material Symbols -->
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+  
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+  <script>
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            "primary": "#006c49",
+            "primary-container": "#10b981",
+            "on-primary-container": "#00422b",
+            "on-primary": "#ffffff",
+            "primary-fixed": "#6ffbbe",
+            "primary-fixed-dim": "#4edea3",
+            "on-primary-fixed": "#002113",
+            "on-primary-fixed-variant": "#005236",
+            "inverse-primary": "#4edea3",
+
+            "surface": "#f8f9ff",
+            "surface-dim": "#cbdbf5",
+            "surface-bright": "#f8f9ff",
+            "surface-container-lowest": "#ffffff",
+            "surface-container-low": "#eff4ff",
+            "surface-container": "#e5eeff",
+            "surface-container-high": "#dce9ff",
+            "surface-container-highest": "#d3e4fe",
+            "inverse-surface": "#213145",
+            "inverse-on-surface": "#eaf1ff",
+
+            "on-surface": "#0b1c30",
+            "on-surface-variant": "#3c4a42",
+            "background": "#f8f9ff",
+            "on-background": "#0b1c30",
+
+            "outline": "#6c7a71",
+            "outline-variant": "#bbcabf",
+
+            "secondary": "#565e74",
+            "secondary-container": "#dae2fd",
+            "on-secondary": "#ffffff",
+            "on-secondary-container": "#5c647a",
+
+            "tertiary": "#855300",
+            "tertiary-container": "#e29100",
+            "tertiary-fixed": "#ffddb8",
+            "tertiary-fixed-dim": "#ffb95f",
+            "on-tertiary": "#ffffff",
+            "on-tertiary-fixed": "#2a1700",
+            "on-tertiary-fixed-variant": "#653e00",
+
+            "error": "#ba1a1a",
+            "error-container": "#ffdad6",
+            "on-error": "#ffffff",
+            "on-error-container": "#93000a"
+          },
+          fontFamily: {
+            sans: ["'Plus Jakarta Sans'", "sans-serif"]
+          },
+          spacing: {
+            "margin": "1rem",
+            "space-xs": "0.25rem",
+            "space-sm": "0.5rem",
+            "space-md": "1rem",
+            "space-lg": "1.5rem",
+            "space-xl": "2rem"
+          }
+        }
+      }
+    };
+  </script>
+  
+  <!-- LZ-String Compression CDN for Ultra-compact URL hashes -->
+  <script src="https://cdn.jsdelivr.net/npm/lz-string@1.5.0/libs/lz-string.min.js"></script>
+
+  <!-- Tesseract.js CDN for in-browser client-side OCR -->
+  <script src="https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js"></script>
+
+  <!-- Custom CSS -->
+  <link rel="stylesheet" href="css/style.css"/>
+</head>
+<body class="bg-background text-on-surface antialiased min-h-screen flex flex-col selection:bg-primary-container selection:text-on-primary-container">
+
+  <!-- Mobile Frame Container (max-w-md on desktop with ambient glow) -->
+  <div class="w-full max-w-md mx-auto min-h-screen bg-surface flex flex-col relative shadow-2xl transition-colors duration-200">
+    
+    <!-- GLOBAL TOP APP BAR -->
+    <header class="bg-surface/90 backdrop-blur-md border-b border-outline-variant/30 flex justify-between items-center w-full px-4 py-3 sticky top-0 z-40">
+      <div class="flex items-center gap-2.5">
+        <button id="btnHeaderBack" class="w-9 h-9 rounded-xl flex items-center justify-center hover:bg-surface-container-high transition-colors active:scale-95 text-primary hidden" type="button" aria-label="Kembali">
+          <span class="material-symbols-outlined text-[22px]">arrow_back</span>
+        </button>
+        <div class="flex items-center gap-2">
+          <span class="material-symbols-outlined text-primary text-2xl">receipt_long</span>
+          <div>
+            <h1 class="text-lg font-extrabold text-primary leading-tight tracking-tight">Patungan</h1>
+            <p id="headerSubtitle" class="text-[10px] text-on-surface-variant font-semibold tracking-wide">Split bill cepat tanpa ribet</p>
+          </div>
+        </div>
+      </div>
+      
+      <div class="flex items-center gap-1.5">
+        <!-- Client-side indicator badge -->
+        <div class="hidden sm:flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-primary/10 border border-primary/20">
+          <span class="w-1.5 h-1.5 rounded-full bg-primary-container animate-pulse"></span>
+          <span class="text-[10px] text-primary font-bold">Client-Side</span>
+        </div>
+
+        <!-- Dark / Light Mode Toggle -->
+        <button id="btnThemeToggle" aria-label="Ganti Tema" class="w-9 h-9 rounded-xl flex items-center justify-center text-on-surface-variant hover:bg-surface-container active:scale-95 transition-all" type="button">
+          <span class="material-symbols-outlined text-[20px]" id="themeIcon">dark_mode</span>
+        </button>
+
+        <!-- Quick Share / Reset -->
+        <button id="btnResetApp" aria-label="Mulai Baru" class="w-9 h-9 rounded-xl flex items-center justify-center text-on-surface-variant hover:bg-surface-container active:scale-95 transition-all hidden" type="button" title="Mulai Ulang">
+          <span class="material-symbols-outlined text-[20px]">refresh</span>
+        </button>
+      </div>
+    </header>
+
+    <!-- ======================================================== -->
+    <!-- SCREEN 1: HOME & SCANNER STRUK -->
+    <!-- ======================================================== -->
+    <section id="screenHome" class="screen-transition flex-1 px-4 pt-4 pb-28 space-y-5">
+      <!-- Hero Banner -->
+      <div class="relative overflow-hidden rounded-2xl bg-surface-container-lowest border border-outline-variant/30 p-5 shadow-sm">
+        <div class="absolute -top-12 -right-12 w-36 h-36 bg-primary-fixed-dim/30 rounded-full blur-2xl pointer-events-none"></div>
+        <div class="relative z-10 flex flex-col items-start gap-1">
+          <div class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-surface-container-low border border-outline-variant/40">
+            <span class="material-symbols-outlined text-primary text-xs material-symbols-fill">verified_user</span>
+            <span class="text-[11px] text-on-surface-variant font-semibold">Tanpa Login • 100% Client-Side</span>
+          </div>
+          <h2 class="text-2xl font-extrabold text-on-surface mt-1 leading-snug">
+            Bagi tagihan makan bareng tanpa salah hitung.
+          </h2>
+          <p class="text-xs text-on-surface-variant mt-1 leading-relaxed">
+            Foto struk restoranmu. Sistem akan mendeteksi otomatis menu makanan, membagi pajak &amp; service proporsional, serta membulatkan presisi ke tiap orang.
+          </p>
+        </div>
+
+        <!-- Quick Benefit Indicators -->
+        <div class="mt-4 pt-3 border-t border-dashed border-outline-variant/50 grid grid-cols-3 gap-2 text-center">
+          <div class="p-2 rounded-xl bg-surface-container-low/60 flex flex-col items-center">
+            <span class="material-symbols-outlined text-primary text-xl mb-0.5">bolt</span>
+            <span class="text-[10px] text-on-surface font-bold">Deteksi Cepat</span>
+          </div>
+          <div class="p-2 rounded-xl bg-surface-container-low/60 flex flex-col items-center">
+            <span class="material-symbols-outlined text-primary text-xl mb-0.5">calculate</span>
+            <span class="text-[10px] text-on-surface font-bold">Pajak Proporsional</span>
+          </div>
+          <div class="p-2 rounded-xl bg-surface-container-low/60 flex flex-col items-center">
+            <span class="material-symbols-outlined text-primary text-xl mb-0.5">share</span>
+            <span class="text-[10px] text-on-surface font-bold">Siap WhatsApp</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Action Cards -->
+      <div class="space-y-3">
+        <!-- 1. OCR Camera Trigger Card -->
+        <div id="cardOcrTrigger" class="relative group cursor-pointer rounded-2xl bg-surface-container-lowest border-2 border-primary-container p-4 shadow-md transition-all duration-200 active:scale-[0.98] hover:border-primary">
+          <div class="flex items-start justify-between">
+            <div class="w-12 h-12 rounded-xl bg-primary-container/20 border border-primary-container/30 flex items-center justify-center text-primary mb-2">
+              <span class="material-symbols-outlined text-2xl">camera_alt</span>
+            </div>
+            <span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-primary-container text-on-primary-container text-[10px] font-extrabold uppercase tracking-wider">
+              OCR Otomatis
+            </span>
+          </div>
+          <h3 class="text-base font-extrabold text-on-surface mt-1">
+            Foto / Scan Struk
+          </h3>
+          <p class="text-xs text-on-surface-variant mt-0.5 leading-normal">
+            Ekstrak nama menu, jumlah porsi, dan harga seketika dari foto struk kasir thermal atau invoice kertas.
+          </p>
+          
+          <input type="file" id="fileReceiptInput" accept="image/*" capture="environment" class="hidden"/>
+          
+          <div class="mt-3 pt-2.5 flex items-center justify-between border-t border-outline-variant/30">
+            <div class="flex items-center gap-1.5 text-primary text-xs font-semibold">
+              <span class="material-symbols-outlined text-base">center_focus_strong</span>
+              <span>JPG, PNG, WebP</span>
+            </div>
+            <button type="button" id="btnTriggerCamera" class="px-3 py-1.5 bg-primary-container text-on-primary-container text-xs font-bold rounded-xl flex items-center gap-1 shadow-sm hover:brightness-95 active:scale-95 transition-all">
+              <span>Buka Kamera / File</span>
+              <span class="material-symbols-outlined text-sm">chevron_right</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- 2. Manual Input Card -->
+        <div id="cardManualInput" class="group cursor-pointer rounded-2xl bg-surface-container-lowest border border-outline-variant/40 p-3.5 shadow-sm transition-all duration-150 active:scale-[0.98] hover:border-outline flex items-center gap-3">
+          <div class="w-11 h-11 rounded-xl bg-surface-container flex items-center justify-center text-on-surface-variant shrink-0">
+            <span class="material-symbols-outlined text-2xl">edit_note</span>
+          </div>
+          <div class="flex-1 min-w-0">
+            <div class="flex items-center justify-between">
+              <h4 class="text-sm font-bold text-on-surface">Input Manual</h4>
+              <span class="material-symbols-outlined text-on-surface-variant text-lg">arrow_forward</span>
+            </div>
+            <p class="text-xs text-on-surface-variant truncate mt-0.5">
+              Ketik manual daftar menu, harga, dan jumlah porsi tanpa kamera.
+            </p>
+          </div>
+        </div>
+
+        <!-- 3. Demo Presets Section -->
+        <div class="rounded-2xl bg-surface-container-low border border-outline-variant/30 p-3.5 space-y-2.5">
+          <div class="flex items-center justify-between">
+            <span class="text-[11px] font-bold text-on-surface-variant uppercase tracking-wider flex items-center gap-1">
+              <span class="material-symbols-outlined text-sm text-primary">play_circle</span>
+              Coba Contoh Struk Cepat
+            </span>
+            <span class="text-[10px] text-primary font-bold">1-Klik Siap Pakai</span>
+          </div>
+          <div class="grid grid-cols-2 gap-2">
+            <button type="button" id="btnPresetPadang" class="p-2.5 rounded-xl bg-surface-container-lowest border border-outline-variant/40 hover:border-primary text-left transition-all active:scale-95 shadow-xs flex flex-col justify-between">
+              <div>
+                <span class="text-xs font-bold text-on-surface block">Resto Padang</span>
+                <span class="text-[10px] text-on-surface-variant">Skenario PRD (7 Menu, 4 Orang)</span>
+              </div>
+              <span class="text-[10px] font-bold text-primary mt-2 flex items-center gap-0.5">
+                Coba ini <span class="material-symbols-outlined text-xs">arrow_forward</span>
+              </span>
+            </button>
+            
+            <button type="button" id="btnPresetCafe" class="p-2.5 rounded-xl bg-surface-container-lowest border border-outline-variant/40 hover:border-primary text-left transition-all active:scale-95 shadow-xs flex flex-col justify-between">
+              <div>
+                <span class="text-xs font-bold text-on-surface block">Kopi &amp; Brunch</span>
+                <span class="text-[10px] text-on-surface-variant">5 Menu + Diskon Rp 10rb</span>
+              </div>
+              <span class="text-[10px] font-bold text-primary mt-2 flex items-center gap-0.5">
+                Coba ini <span class="material-symbols-outlined text-xs">arrow_forward</span>
+              </span>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Tips Bento Section -->
+      <div class="rounded-2xl bg-surface-container-low/70 border border-outline-variant/30 p-3.5 space-y-2 text-xs text-on-surface-variant">
+        <div class="flex items-center gap-1.5 font-bold text-on-surface">
+          <span class="material-symbols-outlined text-base text-primary">lightbulb</span>
+          <span>Tips Foto Struk Agar Akurat</span>
+        </div>
+        <ul class="space-y-1 list-disc list-inside text-[11px] leading-relaxed">
+          <li>Ratakan kertas struk di permukaan datar dengan pencahayaan terang.</li>
+          <li>Pastikan kolom nama item dan nominal harga tidak terpotong.</li>
+          <li>Kamu tetap bisa mengoreksi atau menambah item di langkah berikutnya.</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- ======================================================== -->
+    <!-- SCREEN 2: OCR REVIEW & EDITOR STRUK -->
+    <!-- ======================================================== -->
+    <section id="screenReview" class="screen-transition flex-1 px-4 pt-2 pb-32 space-y-3.5 hidden">
+      <!-- Step Progress -->
+      <div class="space-y-1">
+        <div class="flex items-center justify-between text-xs font-bold">
+          <span class="text-primary">Langkah 1 dari 3: Koreksi Item</span>
+          <span class="text-on-surface-variant">33%</span>
+        </div>
+        <div class="w-full bg-surface-container rounded-full h-1.5 overflow-hidden">
+          <div class="bg-primary-container h-full w-1/3 rounded-full transition-all duration-300"></div>
+        </div>
+      </div>
+
+      <!-- Warning Callout Box (PRD 6.1.3 & 6.1.5) -->
+      <div class="bg-amber-50 dark:bg-amber-950/40 border border-amber-200 dark:border-amber-800/60 rounded-xl p-3 flex items-start gap-2.5">
+        <span class="material-symbols-outlined text-amber-600 dark:text-amber-400 text-lg mt-0.5 material-symbols-fill">warning</span>
+        <div class="flex-1 text-xs">
+          <p class="font-bold text-amber-900 dark:text-amber-200">Periksa hasil scan struk!</p>
+          <p class="text-amber-800 dark:text-amber-300/90 leading-tight mt-0.5 text-[11px]">
+            Struk thermal seringkali buram. Cek kembali nama &amp; harga menu yang ditandai kuning.
+          </p>
+        </div>
+      </div>
+
+      <!-- Merchant Info Card -->
+      <div class="bg-surface-container-lowest rounded-xl p-3 border border-outline-variant/30 flex items-center justify-between shadow-sm">
+        <div class="flex items-center gap-2.5">
+          <div class="w-10 h-10 rounded-xl bg-surface-container-low flex items-center justify-center text-primary shrink-0">
+            <span class="material-symbols-outlined text-xl">storefront</span>
+          </div>
+          <div>
+            <h3 id="displayMerchantName" class="text-sm font-bold text-on-surface">Restoran Padang Garuda</h3>
+            <div class="flex items-center gap-2 text-on-surface-variant text-[11px]">
+              <span id="displayItemCountBadge" class="text-primary font-bold">7 Menu Terbaca</span>
+              <span>•</span>
+              <span class="text-on-surface-variant">Review Mandiri</span>
+            </div>
+          </div>
+        </div>
+        <button type="button" id="btnEditMerchant" class="text-primary hover:bg-surface-container-low px-2 py-1 rounded-lg text-xs font-bold flex items-center gap-1 active:scale-95 transition-all">
+          <span class="material-symbols-outlined text-sm">edit</span>
+          <span>Ubah</span>
+        </button>
+      </div>
+
+      <!-- Section Title & Item List Controls -->
+      <div class="flex items-center justify-between pt-1">
+        <div class="flex items-center gap-2">
+          <span class="text-sm font-bold text-on-surface">Daftar Menu &amp; Minuman</span>
+          <span id="badgeMenuCount" class="bg-secondary-container text-on-secondary-container text-[10px] px-2 py-0.5 rounded-full font-bold">7 Jenis</span>
+        </div>
+        <button type="button" id="btnAddNewItem" class="text-xs text-primary font-bold flex items-center gap-1 hover:underline">
+          <span class="material-symbols-outlined text-sm">add_circle</span>
+          <span>+ Tambah Menu</span>
+        </button>
+      </div>
+
+      <!-- Container Item List Cards -->
+      <div id="reviewItemList" class="space-y-2.5">
+        <!-- Dynamic items injected here via JS -->
+      </div>
+    </section>
+
+    <!-- ======================================================== -->
+    <!-- SCREEN 3: ASSIGNMENT PESERTA & BIAYA -->
+    <!-- ======================================================== -->
+    <section id="screenAssignment" class="screen-transition flex-1 px-4 pt-2 pb-36 space-y-4 hidden">
+      <!-- Step Progress -->
+      <div class="space-y-1">
+        <div class="flex items-center justify-between text-xs font-bold">
+          <span class="text-primary">Langkah 2 dari 3: Bagi Pesanan</span>
+          <span class="text-on-surface-variant">66%</span>
+        </div>
+        <div class="w-full bg-surface-container rounded-full h-1.5 overflow-hidden">
+          <div class="bg-primary-container h-full w-2/3 rounded-full transition-all duration-300"></div>
+        </div>
+      </div>
+
+      <!-- Headline -->
+      <div>
+        <h2 class="text-lg font-extrabold text-on-surface leading-tight">Siapa pesan apa?</h2>
+        <p class="text-xs text-on-surface-variant mt-0.5">Tentukan makanan yang dinikmati tiap peserta secara adil.</p>
+      </div>
+
+      <!-- Participant Manager Chips -->
+      <div class="space-y-1.5">
+        <div class="flex items-center justify-between text-xs">
+          <span class="font-bold text-on-surface-variant uppercase tracking-wider text-[11px]" id="txtParticipantCount">Daftar Peserta (4 Orang)</span>
+          <span class="text-[10px] text-primary font-bold">Min. 2 Orang</span>
+        </div>
+        
+        <div class="flex items-center gap-2 overflow-x-auto pb-1.5 pt-0.5 custom-scroll -mx-4 px-4" id="participantChipsList">
+          <!-- Dynamic Participant Chips injected via JS -->
+        </div>
+      </div>
+
+      <!-- Assignment Status & Progress Guard (PRD 6.3.3) -->
+      <div class="bg-surface-container-lowest rounded-xl p-3 border border-outline-variant/30 space-y-2 shadow-xs">
+        <div class="flex items-center justify-between text-xs">
+          <div class="flex items-center gap-1.5 font-bold text-on-surface">
+            <span class="material-symbols-outlined text-primary text-base material-symbols-fill">check_circle</span>
+            <span>Status Pembagian</span>
+          </div>
+          <span id="txtAssignmentStatusCount" class="text-xs text-primary font-bold">0 dari 0 item sudah dibagi</span>
+        </div>
+        
+        <!-- Assignment Progress Bar -->
+        <div class="w-full bg-surface-container h-2 rounded-full overflow-hidden">
+          <div id="barAssignmentProgress" class="bg-primary h-full rounded-full transition-all duration-300" style="width: 0%;"></div>
+        </div>
+
+        <!-- Warning Callout for Unassigned Items -->
+        <div id="boxUnassignedWarning" class="flex items-center justify-between bg-amber-50 dark:bg-amber-950/40 border border-amber-200 dark:border-amber-800/50 rounded-lg px-2.5 py-1.5 text-xs hidden">
+          <div class="flex items-center gap-1.5 text-amber-900 dark:text-amber-200">
+            <span class="material-symbols-outlined text-amber-600 dark:text-amber-400 text-base material-symbols-fill">warning</span>
+            <span id="txtUnassignedMessage" class="text-[11px] font-semibold">Ada item yang belum dibagi ke siapa pun</span>
+          </div>
+          <button type="button" id="btnAssignAllToEveryone" class="text-[11px] text-amber-800 dark:text-amber-300 font-bold underline">
+            Bagi Rata Saja
+          </button>
+        </div>
+      </div>
+
+      <!-- Item Assignment Cards List -->
+      <div class="space-y-2">
+        <div class="flex items-center justify-between">
+          <span class="text-xs font-bold text-on-surface">Daftar Menu &amp; Pembagian</span>
+          <span class="text-[10px] text-on-surface-variant">Tap avatar untuk menanggung</span>
+        </div>
+
+        <div id="assignmentItemsList" class="space-y-2.5">
+          <!-- Dynamic assignment items injected here -->
+        </div>
+      </div>
+
+      <!-- Extra Charges & Rules Accordion / Settings (PRD 6.4) -->
+      <details class="group bg-surface-container-lowest border border-outline-variant/40 rounded-2xl overflow-hidden transition-all duration-200" id="detailsChargesSettings">
+        <summary class="list-none p-3.5 flex items-center justify-between cursor-pointer select-none hover:bg-surface-container-low transition-colors">
+          <div class="flex items-center gap-2">
+            <span class="material-symbols-outlined text-primary text-xl">tune</span>
+            <div>
+              <span class="text-xs font-bold text-on-surface block">Pajak, Service &amp; Pembulatan</span>
+              <span class="text-[10px] text-on-surface-variant" id="txtSummaryChargesPreview">PPN 11% • Service 5% • Bulat Rp 1.000</span>
+            </div>
+          </div>
+          <span class="material-symbols-outlined text-outline transition-transform duration-200 group-open:rotate-180 text-lg">expand_more</span>
+        </summary>
+        
+        <div class="p-3.5 bg-surface-container-low/40 border-t border-dashed border-outline-variant/40 space-y-3.5 text-xs">
+          <!-- Pajak / PPN -->
+          <div>
+            <div class="flex items-center justify-between mb-1.5">
+              <label class="font-bold text-on-surface">Pajak (PPN / PB1)</label>
+              <span class="text-[11px] text-primary font-bold" id="labelTaxValue">11%</span>
+            </div>
+            <div class="flex items-center gap-1.5">
+              <button type="button" class="btn-tax-preset flex-1 py-1 rounded-lg border border-outline-variant/40 bg-surface-container-lowest text-xs font-bold hover:border-primary active:scale-95" data-val="0">0%</button>
+              <button type="button" class="btn-tax-preset flex-1 py-1 rounded-lg border border-outline-variant/40 bg-surface-container-lowest text-xs font-bold hover:border-primary active:scale-95" data-val="10">10%</button>
+              <button type="button" class="btn-tax-preset flex-1 py-1 rounded-lg border border-primary bg-primary/10 text-primary text-xs font-bold active:scale-95" data-val="11">11%</button>
+              <div class="w-16 relative">
+                <input type="number" id="inputCustomTax" placeholder="%" min="0" max="100" class="w-full py-1 px-2 text-center rounded-lg border border-outline-variant/40 bg-surface-container-lowest text-xs font-bold focus:ring-1 focus:ring-primary"/>
+              </div>
+            </div>
+          </div>
+
+          <!-- Service Charge -->
+          <div>
+            <div class="flex items-center justify-between mb-1.5">
+              <label class="font-bold text-on-surface">Service Charge</label>
+              <span class="text-[11px] text-primary font-bold" id="labelServiceValue">5%</span>
+            </div>
+            <div class="flex items-center gap-1.5">
+              <button type="button" class="btn-svc-preset flex-1 py-1 rounded-lg border border-outline-variant/40 bg-surface-container-lowest text-xs font-bold hover:border-primary active:scale-95" data-val="0">0%</button>
+              <button type="button" class="btn-svc-preset flex-1 py-1 rounded-lg border border-primary bg-primary/10 text-primary text-xs font-bold active:scale-95" data-val="5">5%</button>
+              <button type="button" class="btn-svc-preset flex-1 py-1 rounded-lg border border-outline-variant/40 bg-surface-container-lowest text-xs font-bold hover:border-primary active:scale-95" data-val="10">10%</button>
+              <div class="w-16 relative">
+                <input type="number" id="inputCustomService" placeholder="%" min="0" max="50" class="w-full py-1 px-2 text-center rounded-lg border border-outline-variant/40 bg-surface-container-lowest text-xs font-bold focus:ring-1 focus:ring-primary"/>
+              </div>
+            </div>
+          </div>
+
+          <!-- Diskon -->
+          <div>
+            <div class="flex items-center justify-between mb-1.5">
+              <label class="font-bold text-on-surface">Diskon / Voucher</label>
+              <div class="flex items-center gap-1 bg-surface-container rounded-lg p-0.5 text-[10px]">
+                <button type="button" id="btnDiscountPercent" class="px-2 py-0.5 rounded font-bold bg-surface-container-lowest text-primary shadow-xs">Persen (%)</button>
+                <button type="button" id="btnDiscountAmount" class="px-2 py-0.5 rounded font-bold text-on-surface-variant">Rupiah (Rp)</button>
+              </div>
+            </div>
+            <div class="grid grid-cols-2 gap-2">
+              <input type="number" id="inputDiscountValue" placeholder="0" min="0" class="w-full py-1.5 px-3 rounded-lg border border-outline-variant/40 bg-surface-container-lowest text-xs font-bold focus:ring-1 focus:ring-primary"/>
+              <select id="selectDiscountMode" class="w-full py-1.5 px-2 rounded-lg border border-outline-variant/40 bg-surface-container-lowest text-[11px] font-medium focus:ring-1 focus:ring-primary">
+                <option value="proportional">Bagi Proporsional (Sesuai Porsi)</option>
+                <option value="equal">Bagi Rata Semua Orang</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- Pembulatan (PRD 6.4.4 & 6.4.5) -->
+          <div>
+            <div class="flex items-center justify-between mb-1.5">
+              <label class="font-bold text-on-surface">Aturan Pembulatan Per Orang</label>
+              <span class="text-[10px] text-on-surface-variant">Largest-Remainder</span>
+            </div>
+            <div class="grid grid-cols-3 gap-1.5 text-center">
+              <button type="button" class="btn-rounding-preset py-1.5 px-1 rounded-lg border border-outline-variant/40 bg-surface-container-lowest text-[11px] font-bold hover:border-primary active:scale-95" data-val="0">
+                Tanpa Bulat
+              </button>
+              <button type="button" class="btn-rounding-preset py-1.5 px-1 rounded-lg border border-outline-variant/40 bg-surface-container-lowest text-[11px] font-bold hover:border-primary active:scale-95" data-val="500">
+                Rp 500
+              </button>
+              <button type="button" class="btn-rounding-preset py-1.5 px-1 rounded-lg border border-primary bg-primary/10 text-primary text-[11px] font-bold active:scale-95" data-val="1000">
+                Rp 1.000
+              </button>
+            </div>
+            <p class="text-[10px] text-on-surface-variant mt-1.5 leading-normal">
+              Selisih pembulatan dibebankan adil ke peserta dengan sisa pembulatan terbesar. Total tagihan pas 100% dengan struk asli.
+            </p>
+          </div>
+        </div>
+      </details>
+    </section>
+
+    <!-- ======================================================== -->
+    <!-- SCREEN 4: RINGKASAN & WHATSAPP SHARE -->
+    <!-- ======================================================== -->
+    <section id="screenSummary" class="screen-transition flex-1 px-4 pt-2 pb-36 space-y-4 hidden">
+      <!-- Success / Verification Banner -->
+      <div class="bg-surface-container-lowest border border-outline-variant/40 rounded-2xl p-3.5 shadow-sm flex items-start gap-3">
+        <div class="w-8 h-8 rounded-full bg-primary-container/20 text-primary flex items-center justify-center shrink-0 mt-0.5">
+          <span class="material-symbols-outlined text-primary text-xl material-symbols-fill">verified</span>
+        </div>
+        <div class="flex-1">
+          <div class="flex items-center justify-between">
+            <span class="text-xs font-bold text-primary">Tagihan Berhasil Dihitung</span>
+            <span class="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-bold bg-primary-container text-on-primary-container">
+              100% Cocok
+            </span>
+          </div>
+          <p class="text-[11px] text-on-surface-variant mt-0.5 leading-relaxed">
+            Algoritma Largest-Remainder aktif: jumlah bayar seluruh partisipan presisi tanpa sisa seserpih pun.
+          </p>
+        </div>
+      </div>
+
+      <!-- Mode Switcher (Pembuat vs Read-Only Penerima) -->
+      <div class="bg-surface-container-low rounded-xl p-1 flex items-center gap-1 border border-outline-variant/20">
+        <button type="button" id="btnModeCreator" class="flex-1 py-1.5 px-3 rounded-lg text-xs text-center transition-all bg-surface-container-lowest text-primary font-bold shadow-xs">
+          Mode Pembuat
+        </button>
+        <button type="button" id="btnModeReceiver" class="flex-1 py-1.5 px-3 rounded-lg text-xs text-on-surface-variant text-center transition-all hover:text-on-surface">
+          Lihat Penerima (Read-only)
+        </button>
+      </div>
+
+      <!-- Read-only Banner (Visible when opened from share link) -->
+      <div id="bannerReadOnlyNotice" class="bg-blue-50 dark:bg-blue-950/40 border border-blue-200 dark:border-blue-800/50 rounded-xl p-3 flex items-center justify-between text-xs hidden">
+        <div class="flex items-center gap-2 text-blue-900 dark:text-blue-200">
+          <span class="material-symbols-outlined text-blue-600 dark:text-blue-400 text-base">visibility</span>
+          <span>Anda membuka ringkasan dalam mode baca.</span>
+        </div>
+        <button type="button" id="btnDuplicateAndEdit" class="px-2.5 py-1 rounded-lg bg-blue-600 text-white text-[11px] font-bold hover:bg-blue-700 active:scale-95 transition-all">
+          Duplikat &amp; Edit
+        </button>
+      </div>
+
+      <!-- Fintech Receipt Card (Perforated Effect) -->
+      <div class="relative bg-surface-container-lowest border border-outline-variant/40 rounded-2xl p-4 shadow-sm overflow-hidden">
+        <div class="receipt-punch-left"></div>
+        <div class="receipt-punch-right"></div>
+
+        <!-- Receipt Header -->
+        <div class="flex items-center justify-between pb-2 border-b border-dashed border-outline-variant/40">
+          <div class="flex items-center gap-2">
+            <span class="material-symbols-outlined text-primary text-xl">account_balance_wallet</span>
+            <div>
+              <span class="text-[10px] font-bold text-on-surface-variant tracking-wider uppercase block">GRAND TOTAL STRUK</span>
+              <span id="summaryMerchantName" class="text-xs font-bold text-on-surface">Restoran Padang Garuda</span>
+            </div>
+          </div>
+          <span id="summaryParticipantCountBadge" class="text-[10px] px-2 py-0.5 rounded bg-surface-container-high text-on-surface font-bold">
+            4 Orang
+          </span>
+        </div>
+
+        <!-- Grand Total Display -->
+        <div class="my-3 text-center">
+          <div class="text-3xl font-extrabold text-on-surface tracking-tight" id="txtSummaryGrandTotal">
+            Rp 177.480
+          </div>
+          <span class="text-[10px] text-on-surface-variant">Total Tagihan Termasuk Pajak &amp; Service</span>
+        </div>
+
+        <!-- Perforated Line -->
+        <div class="relative my-3">
+          <div class="w-full border-b border-dashed border-outline-variant/60"></div>
+        </div>
+
+        <!-- Breakdown Grid -->
+        <div class="grid grid-cols-2 gap-y-2 gap-x-4 text-xs">
+          <div class="flex justify-between items-center">
+            <span class="text-on-surface-variant">Subtotal:</span>
+            <span class="font-bold text-on-surface" id="txtSummarySubtotal">Rp 153.000</span>
+          </div>
+          <div class="flex justify-between items-center">
+            <span class="text-on-surface-variant" id="lblSummaryTax">PPN (11%):</span>
+            <span class="font-bold text-on-surface" id="txtSummaryTax">Rp 16.830</span>
+          </div>
+          <div class="flex justify-between items-center">
+            <span class="text-on-surface-variant" id="lblSummaryService">Service (5%):</span>
+            <span class="font-bold text-on-surface" id="txtSummaryService">Rp 7.650</span>
+          </div>
+          <div class="flex justify-between items-center">
+            <span class="text-on-surface-variant">Aturan Bulat:</span>
+            <span class="font-bold text-primary text-[11px]" id="txtSummaryRounding">Rp 1.000 Presisi</span>
+          </div>
+          <div id="rowSummaryDiscount" class="col-span-2 flex justify-between items-center pt-1 border-t border-dashed border-outline-variant/40 hidden">
+            <span class="text-emerald-600 font-semibold">Diskon / Potongan:</span>
+            <span class="font-bold text-emerald-600" id="txtSummaryDiscount">-Rp 0</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Participants Breakdown Accordion Stack -->
+      <div class="space-y-2">
+        <div class="flex items-center justify-between px-1">
+          <h3 class="text-sm font-bold text-on-surface">Pembagian Tiap Orang</h3>
+          <span class="text-[10px] text-on-surface-variant">Ketuk untuk rincian menu</span>
+        </div>
+
+        <div id="summaryParticipantsList" class="space-y-2.5">
+          <!-- Dynamic Participant Accordion Cards injected via JS -->
+        </div>
+      </div>
+
+      <!-- Payment Destination Card (Creator Note for WhatsApp) -->
+      <div class="bg-surface-container-lowest border border-outline-variant/40 rounded-2xl p-3.5 space-y-2">
+        <div class="flex items-center justify-between">
+          <label for="inputPaymentNote" class="text-xs font-bold text-on-surface flex items-center gap-1.5">
+            <span class="material-symbols-outlined text-primary text-base">payments</span>
+            <span>Info Rekening / E-Wallet Pembayaran</span>
+          </label>
+          <span class="text-[10px] text-on-surface-variant">Opsional</span>
+        </div>
+        <input type="text" id="inputPaymentNote" placeholder="Misal: BCA 1234567890 a/n Arief atau GoPay 08123456789" class="w-full py-1.5 px-3 rounded-xl border border-outline-variant/40 bg-surface-container-low text-xs focus:ring-1 focus:ring-primary"/>
+        <p class="text-[10px] text-on-surface-variant leading-tight">
+          Info ini akan otomatis dicantumkan saat kamu membagikan tagihan via WhatsApp.
+        </p>
+      </div>
+
+      <!-- Primary Share CTAs -->
+      <div class="space-y-2 pt-2">
+        <button type="button" id="btnShareWhatsApp" class="w-full py-3 px-4 bg-emerald-600 hover:bg-emerald-700 active:scale-[0.99] text-white font-bold text-sm rounded-xl flex items-center justify-center gap-2 shadow-md transition-all">
+          <span class="material-symbols-outlined text-xl">chat</span>
+          <span>Bagikan Rincian ke WhatsApp</span>
+        </button>
+
+        <div class="grid grid-cols-2 gap-2">
+          <button type="button" id="btnCopyShareLink" class="py-2.5 px-3 bg-surface-container-lowest border border-outline-variant/40 hover:border-primary text-on-surface font-bold text-xs rounded-xl flex items-center justify-center gap-1.5 shadow-xs active:scale-95 transition-all">
+            <span class="material-symbols-outlined text-base text-primary">link</span>
+            <span>Salin Link</span>
+          </button>
+          
+          <button type="button" id="btnCopyTextSummary" class="py-2.5 px-3 bg-surface-container-lowest border border-outline-variant/40 hover:border-primary text-on-surface font-bold text-xs rounded-xl flex items-center justify-center gap-1.5 shadow-xs active:scale-95 transition-all">
+            <span class="material-symbols-outlined text-base text-primary">content_copy</span>
+            <span>Salin Teks</span>
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ======================================================== -->
+    <!-- GLOBAL BOTTOM STICKY ACTION BAR -->
+    <!-- ======================================================== -->
+    <footer id="bottomStickyBar" class="bg-surface/95 backdrop-blur-md border-t border-outline-variant/30 fixed bottom-0 left-0 right-0 max-w-md mx-auto px-4 py-3 z-30 pb-safe shadow-lg">
+      <!-- Screen 2 Action -->
+      <div id="stickyBarScreen2" class="flex items-center justify-between gap-3 hidden">
+        <div>
+          <span class="text-[10px] text-on-surface-variant block font-medium">Subtotal Terkoreksi:</span>
+          <span id="txtStickySubtotal2" class="text-base font-extrabold text-on-surface">Rp 0</span>
+        </div>
+        <button type="button" id="btnProceedToAssignment" class="flex-1 max-w-[200px] py-2.5 px-4 bg-primary text-on-primary font-bold text-xs rounded-xl flex items-center justify-center gap-1.5 shadow-md hover:brightness-105 active:scale-95 transition-all">
+          <span>Lanjut ke Bagi</span>
+          <span class="material-symbols-outlined text-base">arrow_forward</span>
+        </button>
+      </div>
+
+      <!-- Screen 3 Action -->
+      <div id="stickyBarScreen3" class="flex items-center justify-between gap-3 hidden">
+        <div>
+          <span class="text-[10px] text-on-surface-variant block font-medium">Total Estimasi:</span>
+          <span id="txtStickyTotal3" class="text-base font-extrabold text-on-surface">Rp 0</span>
+        </div>
+        <button type="button" id="btnProceedToSummary" class="flex-1 max-w-[210px] py-2.5 px-4 bg-primary text-on-primary font-bold text-xs rounded-xl flex items-center justify-center gap-1.5 shadow-md hover:brightness-105 active:scale-95 transition-all">
+          <span>Lihat Ringkasan</span>
+          <span class="material-symbols-outlined text-base">check_circle</span>
+        </button>
+      </div>
+
+      <!-- Screen 4 Action (Optional quick back / edit) -->
+      <div id="stickyBarScreen4" class="flex items-center justify-between gap-2 hidden">
+        <button type="button" id="btnBackToEditFromSummary" class="flex-1 py-2 px-3 bg-surface-container-lowest border border-outline-variant/40 text-on-surface font-bold text-xs rounded-xl flex items-center justify-center gap-1 hover:border-primary active:scale-95 transition-all">
+          <span class="material-symbols-outlined text-base">edit</span>
+          <span>Ubah Pembagian</span>
+        </button>
+        <button type="button" id="btnStickyShare" class="flex-1 py-2 px-3 bg-primary-container text-on-primary-container font-bold text-xs rounded-xl flex items-center justify-center gap-1 shadow-sm hover:brightness-95 active:scale-95 transition-all">
+          <span class="material-symbols-outlined text-base">share</span>
+          <span>Bagikan</span>
+        </button>
+      </div>
+    </footer>
+
+    <!-- ======================================================== -->
+    <!-- MODALS & OVERLAYS -->
+    <!-- ======================================================== -->
+
+    <!-- 1. OCR Scanning Modal -->
+    <div id="modalOcrProgress" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden">
+      <div class="bg-surface-container-lowest border border-outline-variant/40 rounded-2xl p-6 max-w-xs w-full shadow-2xl text-center space-y-4">
+        <!-- Animated Scanner Graphic -->
+        <div class="relative w-20 h-24 mx-auto bg-surface-container rounded-xl border border-outline-variant/50 overflow-hidden flex flex-col items-center justify-center p-2">
+          <span class="material-symbols-outlined text-primary text-3xl">receipt</span>
+          <div class="absolute left-0 right-0 h-1 bg-primary-container shadow-[0_0_8px_#10b981] radar-beam"></div>
+        </div>
+
+        <div>
+          <h3 class="text-sm font-extrabold text-on-surface">Menganalisis Struk...</h3>
+          <p id="txtOcrStatus" class="text-xs text-on-surface-variant mt-1">Memproses OCR di browser secara privat</p>
+        </div>
+
+        <!-- Progress Bar -->
+        <div class="w-full bg-surface-container rounded-full h-2 overflow-hidden">
+          <div id="barOcrProgress" class="bg-primary-container h-full transition-all duration-300" style="width: 15%;"></div>
+        </div>
+
+        <button type="button" id="btnCancelOcr" class="text-xs text-outline font-semibold hover:text-on-surface transition-colors">
+          Batal &amp; Input Manual
+        </button>
+      </div>
+    </div>
+
+    <!-- 2. Add / Edit Item Modal -->
+    <div id="modalEditItem" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-end sm:items-center justify-center p-0 sm:p-4 hidden">
+      <div class="bg-surface-container-lowest border border-outline-variant/40 rounded-t-2xl sm:rounded-2xl p-5 max-w-sm w-full shadow-2xl space-y-4">
+        <div class="flex items-center justify-between pb-2 border-b border-outline-variant/20">
+          <h3 id="modalItemTitle" class="text-sm font-extrabold text-on-surface">Tambah Menu Baru</h3>
+          <button type="button" class="btn-close-modal text-outline hover:text-on-surface">
+            <span class="material-symbols-outlined text-lg">close</span>
+          </button>
+        </div>
+
+        <form id="formEditItem" class="space-y-3">
+          <input type="hidden" id="inputEditItemId"/>
+          <div>
+            <label class="text-[11px] font-bold text-on-surface block mb-1">Nama Menu</label>
+            <input type="text" id="inputItemName" required placeholder="Misal: Nasi Goreng Spesial" class="w-full py-2 px-3 rounded-xl border border-outline-variant/40 bg-surface text-xs focus:ring-1 focus:ring-primary"/>
+          </div>
+
+          <div class="grid grid-cols-2 gap-2">
+            <div>
+              <label class="text-[11px] font-bold text-on-surface block mb-1">Harga Satuan (Rp)</label>
+              <input type="number" id="inputItemPrice" required min="0" placeholder="25000" class="w-full py-2 px-3 rounded-xl border border-outline-variant/40 bg-surface text-xs focus:ring-1 focus:ring-primary"/>
+            </div>
+            <div>
+              <label class="text-[11px] font-bold text-on-surface block mb-1">Jumlah (Qty)</label>
+              <input type="number" id="inputItemQty" required min="1" max="99" value="1" class="w-full py-2 px-3 rounded-xl border border-outline-variant/40 bg-surface text-xs focus:ring-1 focus:ring-primary"/>
+            </div>
+          </div>
+
+          <div class="flex items-center gap-2 pt-1">
+            <input type="checkbox" id="inputItemLowConf" class="rounded border-outline-variant/40 text-primary focus:ring-primary"/>
+            <label for="inputItemLowConf" class="text-[11px] text-on-surface-variant">Tandai perlu dicek ulang (highlight kuning)</label>
+          </div>
+
+          <div class="flex gap-2 pt-2">
+            <button type="button" class="btn-close-modal flex-1 py-2 rounded-xl border border-outline-variant/40 text-xs font-bold text-outline hover:bg-surface-container">
+              Batal
+            </button>
+            <button type="submit" class="flex-1 py-2 rounded-xl bg-primary text-on-primary text-xs font-bold shadow-md hover:brightness-105 active:scale-95">
+              Simpan
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!-- 3. Add / Edit Participant Modal -->
+    <div id="modalParticipant" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-end sm:items-center justify-center p-0 sm:p-4 hidden">
+      <div class="bg-surface-container-lowest border border-outline-variant/40 rounded-t-2xl sm:rounded-2xl p-5 max-w-sm w-full shadow-2xl space-y-4">
+        <div class="flex items-center justify-between pb-2 border-b border-outline-variant/20">
+          <h3 id="modalParticipantTitle" class="text-sm font-extrabold text-on-surface">Tambah Teman Patungan</h3>
+          <button type="button" class="btn-close-modal text-outline hover:text-on-surface">
+            <span class="material-symbols-outlined text-lg">close</span>
+          </button>
+        </div>
+
+        <form id="formParticipant" class="space-y-3">
+          <input type="hidden" id="inputParticipantId"/>
+          <div>
+            <label class="text-[11px] font-bold text-on-surface block mb-1">Nama Teman</label>
+            <input type="text" id="inputParticipantName" required placeholder="Misal: Dimas" class="w-full py-2 px-3 rounded-xl border border-outline-variant/40 bg-surface text-xs focus:ring-1 focus:ring-primary"/>
+          </div>
+
+          <div>
+            <label class="text-[11px] font-bold text-on-surface block mb-1">Warna Avatar</label>
+            <div class="flex items-center gap-2" id="colorPickerList">
+              <label class="cursor-pointer">
+                <input type="radio" name="pcolor" value="emerald" checked class="hidden peer"/>
+                <span class="w-7 h-7 rounded-full bg-emerald-500 inline-block border-2 border-transparent peer-checked:border-black peer-checked:scale-110 transition-all"></span>
+              </label>
+              <label class="cursor-pointer">
+                <input type="radio" name="pcolor" value="indigo" class="hidden peer"/>
+                <span class="w-7 h-7 rounded-full bg-indigo-500 inline-block border-2 border-transparent peer-checked:border-black peer-checked:scale-110 transition-all"></span>
+              </label>
+              <label class="cursor-pointer">
+                <input type="radio" name="pcolor" value="purple" class="hidden peer"/>
+                <span class="w-7 h-7 rounded-full bg-purple-500 inline-block border-2 border-transparent peer-checked:border-black peer-checked:scale-110 transition-all"></span>
+              </label>
+              <label class="cursor-pointer">
+                <input type="radio" name="pcolor" value="amber" class="hidden peer"/>
+                <span class="w-7 h-7 rounded-full bg-amber-500 inline-block border-2 border-transparent peer-checked:border-black peer-checked:scale-110 transition-all"></span>
+              </label>
+              <label class="cursor-pointer">
+                <input type="radio" name="pcolor" value="rose" class="hidden peer"/>
+                <span class="w-7 h-7 rounded-full bg-rose-500 inline-block border-2 border-transparent peer-checked:border-black peer-checked:scale-110 transition-all"></span>
+              </label>
+              <label class="cursor-pointer">
+                <input type="radio" name="pcolor" value="cyan" class="hidden peer"/>
+                <span class="w-7 h-7 rounded-full bg-cyan-500 inline-block border-2 border-transparent peer-checked:border-black peer-checked:scale-110 transition-all"></span>
+              </label>
+            </div>
+          </div>
+
+          <div class="flex gap-2 pt-2">
+            <button type="button" class="btn-close-modal flex-1 py-2 rounded-xl border border-outline-variant/40 text-xs font-bold text-outline hover:bg-surface-container">
+              Batal
+            </button>
+            <button type="submit" class="flex-1 py-2 rounded-xl bg-primary text-on-primary text-xs font-bold shadow-md hover:brightness-105 active:scale-95">
+              Simpan
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!-- 4. Split by Quantity Modal (PRD 6.3.2) -->
+    <div id="modalQtySplit" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-end sm:items-center justify-center p-0 sm:p-4 hidden">
+      <div class="bg-surface-container-lowest border border-outline-variant/40 rounded-t-2xl sm:rounded-2xl p-5 max-w-sm w-full shadow-2xl space-y-4">
+        <div class="flex items-center justify-between pb-2 border-b border-outline-variant/20">
+          <div>
+            <h3 class="text-sm font-extrabold text-on-surface" id="txtQtySplitItemName">Bagi Porsi Item</h3>
+            <p class="text-[11px] text-on-surface-variant" id="txtQtySplitSubtitle">Total 3 porsi • Alokasikan ke masing-masing</p>
+          </div>
+          <button type="button" class="btn-close-modal text-outline hover:text-on-surface">
+            <span class="material-symbols-outlined text-lg">close</span>
+          </button>
+        </div>
+
+        <div id="qtySplitParticipantsContainer" class="space-y-2.5 max-h-60 overflow-y-auto pr-1">
+          <!-- Dynamic steppers per participant injected via JS -->
+        </div>
+
+        <div class="p-2.5 bg-surface-container-low rounded-xl flex items-center justify-between text-xs">
+          <span class="text-on-surface-variant">Porsi Teralokasi:</span>
+          <span id="txtQtyAllocatedStatus" class="font-extrabold text-primary">0 / 0 Porsi</span>
+        </div>
+
+        <div class="flex gap-2 pt-1">
+          <button type="button" id="btnResetToEqualSplit" class="flex-1 py-2 rounded-xl border border-outline-variant/40 text-xs font-bold text-outline hover:bg-surface-container">
+            Bagi Rata Saja
+          </button>
+          <button type="button" id="btnSaveQtySplit" class="flex-1 py-2 rounded-xl bg-primary text-on-primary text-xs font-bold shadow-md hover:brightness-105 active:scale-95">
+            Terapkan
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- 5. Toast Notification -->
+    <div id="toast" class="fixed bottom-20 left-1/2 -translate-x-1/2 z-50 bg-inverse-surface text-inverse-on-surface px-4 py-2.5 rounded-xl shadow-xl flex items-center gap-2 text-xs font-semibold max-w-xs w-full justify-center">
+      <span class="material-symbols-outlined text-primary-fixed text-base" id="toastIcon">check_circle</span>
+      <span id="toastMsg">Tindakan berhasil!</span>
+    </div>
+
+  </div>
+
+  <!-- Main JavaScript App Entry -->
+  <script type="module" src="js/app.js"></script>
+</body>
+</html>

@@ -1,0 +1,528 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="id"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Patungan - OCR Review &amp; Item Editor</title>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          "colors": {
+            "background": "#0b0f17",
+            "surface": "#0f141f",
+            "surface-container": "#181c24",
+            "surface-container-low": "#131722",
+            "surface-container-lowest": "#0e111a",
+            "surface-container-high": "#1f2533",
+            "surface-container-highest": "#283042",
+            "on-surface": "#f3f4f6",
+            "on-surface-variant": "#94a3b8",
+            "outline": "#64748b",
+            "outline-variant": "#334155",
+            "primary": "#10b981",
+            "primary-container": "#10b981",
+            "on-primary": "#022c22",
+            "on-primary-container": "#022c22",
+            "primary-fixed": "#064e3b",
+            "primary-fixed-dim": "#34d399",
+            "on-primary-fixed-variant": "#6ee7b7",
+            "secondary": "#94a3b8",
+            "secondary-container": "#1e293b",
+            "on-secondary-fixed": "#cbd5e1",
+            "error": "#f87171",
+            "error-container": "#450a0a",
+            "tertiary": "#f59e0b",
+            "tertiary-container": "#78350f",
+            "tertiary-fixed": "#451a03",
+            "on-tertiary-fixed": "#fef3c7",
+            "on-tertiary-fixed-variant": "#fde68a"
+          },
+          "borderRadius": {
+            "DEFAULT": "0.25rem",
+            "lg": "0.5rem",
+            "xl": "0.75rem",
+            "full": "9999px"
+          },
+          "spacing": {
+            "margin": "1rem",
+            "space-xl": "2rem",
+            "space-sm": "0.5rem",
+            "space-xs": "0.25rem",
+            "gutter-desktop": "1.5rem",
+            "margin-desktop": "2rem",
+            "space-md": "1rem",
+            "gutter": "1rem",
+            "space-lg": "1.5rem"
+          },
+          "fontFamily": {
+            "headline-xl-mobile": ["Plus Jakarta Sans"],
+            "label-md": ["Plus Jakarta Sans"],
+            "headline-xl": ["Plus Jakarta Sans"],
+            "currency-md": ["Plus Jakarta Sans"],
+            "currency-display": ["Plus Jakarta Sans"],
+            "body-lg": ["Plus Jakarta Sans"],
+            "headline-md": ["Plus Jakarta Sans"],
+            "headline-lg": ["Plus Jakarta Sans"],
+            "label-xs": ["Plus Jakarta Sans"],
+            "body-md": ["Plus Jakarta Sans"],
+            "label-sm": ["Plus Jakarta Sans"],
+            "body-sm": ["Plus Jakarta Sans"],
+            "title-md": ["Plus Jakarta Sans"]
+          },
+          "fontSize": {
+            "headline-xl-mobile": ["28px", { "lineHeight": "36px", "letterSpacing": "-0.02em", "fontWeight": "800" }],
+            "label-md": ["14px", { "lineHeight": "20px", "fontWeight": "600" }],
+            "headline-xl": ["36px", { "lineHeight": "44px", "letterSpacing": "-0.03em", "fontWeight": "800" }],
+            "currency-md": ["16px", { "lineHeight": "24px", "letterSpacing": "-0.01em", "fontWeight": "700" }],
+            "currency-display": ["32px", { "lineHeight": "40px", "letterSpacing": "-0.03em", "fontWeight": "800" }],
+            "body-lg": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+            "headline-md": ["20px", { "lineHeight": "28px", "letterSpacing": "-0.015em", "fontWeight": "700" }],
+            "headline-lg": ["24px", { "lineHeight": "32px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+            "label-xs": ["10px", { "lineHeight": "12px", "letterSpacing": "0.05em", "fontWeight": "700" }],
+            "body-md": ["14px", { "lineHeight": "20px", "fontWeight": "400" }],
+            "label-sm": ["12px", { "lineHeight": "16px", "fontWeight": "600" }],
+            "body-sm": ["12px", { "lineHeight": "16px", "fontWeight": "400" }],
+            "title-md": ["16px", { "lineHeight": "24px", "fontWeight": "600" }]
+          }
+        }
+      }
+    }
+  </script>
+<style>
+    .material-symbols-outlined {
+      font-variation-settings: 'FILL' 0, 'wght' 500, 'GRAD' 0, 'opsz' 24;
+      line-height: 1;
+    }
+    .material-symbols-fill {
+      font-variation-settings: 'FILL' 1, 'wght' 600, 'GRAD' 0, 'opsz' 24;
+    }
+    .perforated-border {
+      border-bottom: 2px dashed #334155;
+    }
+    .tabular-nums {
+      font-variant-numeric: tabular-nums;
+    }
+  </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+</head>
+<body class="bg-[#0b0f17] text-[#f3f4f6] antialiased min-h-screen pb-32">
+<!-- Top App Bar (Task-Focused Step Shell) -->
+<header class="bg-[#0f141f]/95 backdrop-blur border-b border-slate-800 text-primary w-full px-margin py-space-sm max-w-md mx-auto sticky top-0 z-40 flex items-center justify-between">
+<div class="flex items-center gap-space-sm">
+<button aria-label="Kembali" class="w-10 h-10 rounded-full flex items-center justify-center hover:bg-[#1f2533] transition-colors active:scale-95 text-[#f3f4f6]" type="button">
+<span class="material-symbols-outlined text-[#10b981]" data-icon="receipt_long">receipt_long</span>
+</button>
+<div>
+<h1 class="font-headline-md text-headline-md font-extrabold text-[#f3f4f6] leading-none">Review Hasil Scan</h1>
+<div class="flex items-center gap-1.5 mt-0.5">
+<span class="w-1.5 h-1.5 rounded-full bg-[#10b981]"></span>
+<p class="font-label-xs text-label-xs text-[#94a3b8] font-bold">Langkah 1 dari 3: Koreksi Item</p>
+</div>
+</div>
+</div>
+<div class="flex items-center gap-1">
+<button class="w-10 h-10 rounded-full flex items-center justify-center hover:bg-[#1f2533] transition-colors active:scale-95 text-[#94a3b8]" title="Bagikan Struk" type="button">
+<span class="material-symbols-outlined" data-icon="share">share</span>
+</button>
+</div>
+</header>
+<main class="max-w-md mx-auto px-margin pt-space-sm space-y-space-md">
+<!-- Progress Indicator Bar -->
+<div class="w-full bg-[#1e2533] rounded-full h-1.5 overflow-hidden flex">
+<div class="bg-[#10b981] h-full w-1/3 rounded-full transition-all duration-300"></div>
+</div>
+<!-- Alert / Banner Info Penting -->
+<div class="bg-[#241a0b] border border-amber-500/30 rounded-xl p-space-sm flex items-start gap-3 shadow-sm">
+<span class="material-symbols-outlined text-amber-400 mt-0.5" data-icon="warning">warning</span>
+<div class="flex-1">
+<p class="font-label-sm text-label-sm text-amber-200 font-bold">Periksa hasil scan struk!</p>
+<p class="font-body-sm text-body-sm text-amber-300/80 leading-tight mt-0.5">
+          Struk thermal kadang buram. Cek kembali item yang ditandai kuning untuk akurasi nominal.
+        </p>
+</div>
+<button class="text-amber-400/80 hover:text-amber-200 text-xs self-start" onclick="this.parentElement.remove()" type="button">
+<span class="material-symbols-outlined text-base" data-icon="close">close</span>
+</button>
+</div>
+<!-- Ringkasan Scan Otomatis & Merchant Metadata -->
+<div class="bg-[#181c24] rounded-xl p-space-md border border-slate-800 flex items-center justify-between shadow-sm">
+<div class="flex items-center gap-3">
+<div class="w-11 h-11 rounded-xl bg-[#121620] border border-slate-800 flex items-center justify-center text-[#10b981]">
+<span class="material-symbols-outlined text-2xl" data-icon="storefront">storefront</span>
+</div>
+<div>
+<h2 class="font-title-md text-title-md font-bold text-[#f3f4f6]">Restoran Padang Garuda</h2>
+<div class="flex items-center gap-2 text-[#94a3b8] font-label-xs text-label-xs">
+<span class="inline-flex items-center gap-0.5 text-[#10b981] font-bold">
+<span class="material-symbols-outlined text-sm material-symbols-fill" data-icon="verified">verified</span>
+              7 Item terbaca
+            </span>
+<span>•</span>
+<span>OCR AI v2.4</span>
+</div>
+</div>
+</div>
+<button class="text-[#10b981] hover:bg-[#1f2533] px-2 py-1.5 rounded-lg font-label-sm text-label-sm font-bold flex items-center gap-1 active:scale-95 transition-all">
+<span class="material-symbols-outlined text-sm" data-icon="edit">edit</span>
+        Ubah
+      </button>
+</div>
+<!-- Section Header Item List -->
+<div class="flex items-center justify-between pt-1">
+<div class="flex items-center gap-2">
+<span class="font-title-md text-title-md font-bold text-[#f3f4f6]">Daftar Menu &amp; Minuman</span>
+<span class="bg-[#1e293b] text-[#cbd5e1] border border-slate-700 font-label-xs text-label-xs px-2 py-0.5 rounded-full font-bold">6 Jenis</span>
+</div>
+<span class="font-label-xs text-label-xs text-[#94a3b8] font-medium">Geser / Ubah Jumlah</span>
+</div>
+<!-- Item Cards Container -->
+<div class="space-y-space-sm" id="item-list">
+<!-- Item 1: Ayam Bakar Taliwang -->
+<div class="bg-[#181c24] rounded-xl p-space-sm border border-slate-800/80 hover:border-slate-700 transition-all shadow-sm">
+<div class="flex items-start justify-between gap-2">
+<div class="flex-1">
+<div class="flex items-center gap-1.5">
+<h3 class="font-title-md text-title-md font-bold text-[#f3f4f6]">Ayam Bakar Taliwang</h3>
+<span class="inline-flex items-center px-1.5 py-0.5 rounded text-[10px] font-bold bg-[#064e3b]/80 border border-emerald-500/30 text-[#6ee7b7]">
+<span class="material-symbols-outlined text-[12px] mr-0.5 material-symbols-fill" data-icon="check_circle">check_circle</span>
+                Cocok
+              </span>
+</div>
+<p class="font-body-sm text-body-sm text-[#94a3b8] tabular-nums mt-0.5">
+              Rp 42.000 / porsi
+            </p>
+</div>
+<div class="text-right">
+<div class="font-currency-md text-currency-md font-extrabold text-[#f3f4f6] tabular-nums">
+              Rp 84.000
+            </div>
+<span class="font-label-xs text-label-xs text-[#64748b] font-medium">Subtotal</span>
+</div>
+</div>
+<div class="mt-space-sm pt-space-xs border-t border-slate-800 flex items-center justify-between">
+<div class="flex items-center bg-[#121620] border border-slate-800 rounded-lg p-0.5">
+<button class="w-7 h-7 rounded flex items-center justify-center hover:bg-[#1f2533] text-[#94a3b8] active:scale-90 transition-transform" type="button">
+<span class="material-symbols-outlined text-sm" data-icon="remove">remove</span>
+</button>
+<span class="w-8 text-center font-label-md text-label-md font-bold text-[#f3f4f6] tabular-nums">2</span>
+<button class="w-7 h-7 rounded flex items-center justify-center hover:bg-[#1f2533] text-[#94a3b8] active:scale-90 transition-transform" type="button">
+<span class="material-symbols-outlined text-sm" data-icon="add">add</span>
+</button>
+</div>
+<div class="flex items-center gap-1">
+<button class="w-8 h-8 rounded-lg flex items-center justify-center text-[#64748b] hover:text-[#10b981] hover:bg-[#1f2533] transition-colors" title="Edit Harga / Nama" type="button">
+<span class="material-symbols-outlined text-base" data-icon="edit">edit</span>
+</button>
+<button class="w-8 h-8 rounded-lg flex items-center justify-center text-[#64748b] hover:text-red-400 hover:bg-red-950/40 transition-colors" title="Hapus Item" type="button">
+<span class="material-symbols-outlined text-base" data-icon="delete">delete</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Item 2: Nasi Goreng Spesial -->
+<div class="bg-[#181c24] rounded-xl p-space-sm border border-slate-800/80 hover:border-slate-700 transition-all shadow-sm">
+<div class="flex items-start justify-between gap-2">
+<div class="flex-1">
+<div class="flex items-center gap-1.5">
+<h3 class="font-title-md text-title-md font-bold text-[#f3f4f6]">Nasi Goreng Spesial</h3>
+<span class="inline-flex items-center px-1.5 py-0.5 rounded text-[10px] font-bold bg-[#064e3b]/80 border border-emerald-500/30 text-[#6ee7b7]">
+<span class="material-symbols-outlined text-[12px] mr-0.5 material-symbols-fill" data-icon="check_circle">check_circle</span>
+                Cocok
+              </span>
+</div>
+<p class="font-body-sm text-body-sm text-[#94a3b8] tabular-nums mt-0.5">
+              Rp 28.000 / porsi
+            </p>
+</div>
+<div class="text-right">
+<div class="font-currency-md text-currency-md font-extrabold text-[#f3f4f6] tabular-nums">
+              Rp 28.000
+            </div>
+<span class="font-label-xs text-label-xs text-[#64748b] font-medium">Subtotal</span>
+</div>
+</div>
+<div class="mt-space-sm pt-space-xs border-t border-slate-800 flex items-center justify-between">
+<div class="flex items-center bg-[#121620] border border-slate-800 rounded-lg p-0.5">
+<button class="w-7 h-7 rounded flex items-center justify-center hover:bg-[#1f2533] text-[#94a3b8] active:scale-90 transition-transform" type="button">
+<span class="material-symbols-outlined text-sm" data-icon="remove">remove</span>
+</button>
+<span class="w-8 text-center font-label-md text-label-md font-bold text-[#f3f4f6] tabular-nums">1</span>
+<button class="w-7 h-7 rounded flex items-center justify-center hover:bg-[#1f2533] text-[#94a3b8] active:scale-90 transition-transform" type="button">
+<span class="material-symbols-outlined text-sm" data-icon="add">add</span>
+</button>
+</div>
+<div class="flex items-center gap-1">
+<button class="w-8 h-8 rounded-lg flex items-center justify-center text-[#64748b] hover:text-[#10b981] hover:bg-[#1f2533] transition-colors" type="button">
+<span class="material-symbols-outlined text-base" data-icon="edit">edit</span>
+</button>
+<button class="w-8 h-8 rounded-lg flex items-center justify-center text-[#64748b] hover:text-red-400 hover:bg-red-950/40 transition-colors" type="button">
+<span class="material-symbols-outlined text-base" data-icon="delete">delete</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Item 3: Es Teh Manis -->
+<div class="bg-[#181c24] rounded-xl p-space-sm border border-slate-800/80 hover:border-slate-700 transition-all shadow-sm">
+<div class="flex items-start justify-between gap-2">
+<div class="flex-1">
+<div class="flex items-center gap-1.5">
+<h3 class="font-title-md text-title-md font-bold text-[#f3f4f6]">Es Teh Manis</h3>
+<span class="inline-flex items-center px-1.5 py-0.5 rounded text-[10px] font-bold bg-[#064e3b]/80 border border-emerald-500/30 text-[#6ee7b7]">
+<span class="material-symbols-outlined text-[12px] mr-0.5 material-symbols-fill" data-icon="check_circle">check_circle</span>
+                Cocok
+              </span>
+</div>
+<p class="font-body-sm text-body-sm text-[#94a3b8] tabular-nums mt-0.5">
+              Rp 8.000 / gelas
+            </p>
+</div>
+<div class="text-right">
+<div class="font-currency-md text-currency-md font-extrabold text-[#f3f4f6] tabular-nums">
+              Rp 16.000
+            </div>
+<span class="font-label-xs text-label-xs text-[#64748b] font-medium">Subtotal</span>
+</div>
+</div>
+<div class="mt-space-sm pt-space-xs border-t border-slate-800 flex items-center justify-between">
+<div class="flex items-center bg-[#121620] border border-slate-800 rounded-lg p-0.5">
+<button class="w-7 h-7 rounded flex items-center justify-center hover:bg-[#1f2533] text-[#94a3b8] active:scale-90 transition-transform" type="button">
+<span class="material-symbols-outlined text-sm" data-icon="remove">remove</span>
+</button>
+<span class="w-8 text-center font-label-md text-label-md font-bold text-[#f3f4f6] tabular-nums">2</span>
+<button class="w-7 h-7 rounded flex items-center justify-center hover:bg-[#1f2533] text-[#94a3b8] active:scale-90 transition-transform" type="button">
+<span class="material-symbols-outlined text-sm" data-icon="add">add</span>
+</button>
+</div>
+<div class="flex items-center gap-1">
+<button class="w-8 h-8 rounded-lg flex items-center justify-center text-[#64748b] hover:text-[#10b981] hover:bg-[#1f2533] transition-colors" type="button">
+<span class="material-symbols-outlined text-base" data-icon="edit">edit</span>
+</button>
+<button class="w-8 h-8 rounded-lg flex items-center justify-center text-[#64748b] hover:text-red-400 hover:bg-red-950/40 transition-colors" type="button">
+<span class="material-symbols-outlined text-base" data-icon="delete">delete</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Item 4 (LOW CONFIDENCE / AMBER HIGHLIGHT sesuai PRD §6.1.5) -->
+<div class="bg-[#1f1b13] rounded-xl p-space-sm border-2 border-amber-500/70 shadow-md relative overflow-hidden ring-1 ring-amber-400/40">
+<div class="absolute -top-3 -right-3 w-16 h-16 bg-amber-500/10 rounded-full blur-lg pointer-events-none"></div>
+<div class="flex items-start justify-between gap-2">
+<div class="flex-1">
+<div class="flex flex-wrap items-center gap-1.5 mb-1">
+<span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs font-bold bg-amber-500/20 text-amber-300 border border-amber-500/40">
+<span class="material-symbols-outlined text-[13px] text-amber-400" data-icon="warning">warning</span>
+                Perlu Cek (OCR 64%)
+              </span>
+<span class="font-label-xs text-label-xs text-amber-200/70">Teks struk buram</span>
+</div>
+<!-- Inline Quick Edit Field for Item Name -->
+<div class="flex items-center gap-2 mt-1">
+<input class="w-full bg-[#121620] border border-amber-500/50 text-[#f3f4f6] font-title-md text-title-md font-bold rounded-lg px-2.5 py-1 focus:ring-2 focus:ring-[#10b981] focus:border-[#10b981] focus:outline-none" placeholder="Nama menu..." type="text" value="Kentang Goreng"/>
+</div>
+<p class="font-label-xs text-label-xs text-[#94a3b8] mt-1 italic">
+              Teks OCR asli: <span class="line-through text-slate-400 font-mono">Kntng Gorng</span>
+</p>
+</div>
+<!-- Price Input Field -->
+<div class="text-right min-w-[110px]">
+<label class="font-label-xs text-label-xs text-amber-200/80 block font-medium">Harga Satuan</label>
+<div class="relative mt-0.5">
+<span class="absolute left-2 top-1.5 font-label-sm text-label-sm font-bold text-slate-400">Rp</span>
+<input class="w-full bg-[#121620] border border-amber-500/50 text-[#f3f4f6] font-currency-md text-currency-md font-extrabold rounded-lg pl-8 pr-2 py-1 text-right tabular-nums focus:ring-2 focus:ring-[#10b981] focus:border-[#10b981] focus:outline-none" type="text" value="25.000"/>
+</div>
+</div>
+</div>
+<div class="mt-space-sm pt-space-xs border-t border-amber-500/20 flex items-center justify-between">
+<div class="flex items-center bg-[#121620] border border-amber-500/30 rounded-lg p-0.5">
+<button class="w-7 h-7 rounded flex items-center justify-center hover:bg-[#2a2418] text-amber-200 active:scale-90 transition-transform" type="button">
+<span class="material-symbols-outlined text-sm" data-icon="remove">remove</span>
+</button>
+<span class="w-8 text-center font-label-md text-label-md font-bold text-[#f3f4f6] tabular-nums">1</span>
+<button class="w-7 h-7 rounded flex items-center justify-center hover:bg-[#2a2418] text-amber-200 active:scale-90 transition-transform" type="button">
+<span class="material-symbols-outlined text-sm" data-icon="add">add</span>
+</button>
+</div>
+<div class="flex items-center gap-2">
+<button class="bg-[#10b981] hover:bg-emerald-400 text-slate-950 px-3 py-1 rounded-lg font-label-sm text-label-sm font-bold flex items-center gap-1 active:scale-95 transition-all" type="button">
+<span class="material-symbols-outlined text-xs material-symbols-fill" data-icon="check">check</span>
+              Konfirmasi
+            </button>
+<button class="w-8 h-8 rounded-lg flex items-center justify-center text-[#64748b] hover:text-red-400 hover:bg-red-950/40 transition-colors" type="button">
+<span class="material-symbols-outlined text-base" data-icon="delete">delete</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Item 5: Sate Ayam 10 Tsk -->
+<div class="bg-[#181c24] rounded-xl p-space-sm border border-slate-800/80 hover:border-slate-700 transition-all shadow-sm">
+<div class="flex items-start justify-between gap-2">
+<div class="flex-1">
+<div class="flex items-center gap-1.5">
+<h3 class="font-title-md text-title-md font-bold text-[#f3f4f6]">Sate Ayam (10 Tusuk)</h3>
+<span class="inline-flex items-center px-1.5 py-0.5 rounded text-[10px] font-bold bg-[#064e3b]/80 border border-emerald-500/30 text-[#6ee7b7]">
+<span class="material-symbols-outlined text-[12px] mr-0.5 material-symbols-fill" data-icon="check_circle">check_circle</span>
+                Cocok
+              </span>
+</div>
+<p class="font-body-sm text-body-sm text-[#94a3b8] tabular-nums mt-0.5">
+              Rp 35.000 / porsi
+            </p>
+</div>
+<div class="text-right">
+<div class="font-currency-md text-currency-md font-extrabold text-[#f3f4f6] tabular-nums">
+              Rp 35.000
+            </div>
+<span class="font-label-xs text-label-xs text-[#64748b] font-medium">Subtotal</span>
+</div>
+</div>
+<div class="mt-space-sm pt-space-xs border-t border-slate-800 flex items-center justify-between">
+<div class="flex items-center bg-[#121620] border border-slate-800 rounded-lg p-0.5">
+<button class="w-7 h-7 rounded flex items-center justify-center hover:bg-[#1f2533] text-[#94a3b8] active:scale-90 transition-transform" type="button">
+<span class="material-symbols-outlined text-sm" data-icon="remove">remove</span>
+</button>
+<span class="w-8 text-center font-label-md text-label-md font-bold text-[#f3f4f6] tabular-nums">1</span>
+<button class="w-7 h-7 rounded flex items-center justify-center hover:bg-[#1f2533] text-[#94a3b8] active:scale-90 transition-transform" type="button">
+<span class="material-symbols-outlined text-sm" data-icon="add">add</span>
+</button>
+</div>
+<div class="flex items-center gap-1">
+<button class="w-8 h-8 rounded-lg flex items-center justify-center text-[#64748b] hover:text-[#10b981] hover:bg-[#1f2533] transition-colors" type="button">
+<span class="material-symbols-outlined text-base" data-icon="edit">edit</span>
+</button>
+<button class="w-8 h-8 rounded-lg flex items-center justify-center text-[#64748b] hover:text-red-400 hover:bg-red-950/40 transition-colors" type="button">
+<span class="material-symbols-outlined text-base" data-icon="delete">delete</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Item 6: Air Mineral 600ml -->
+<div class="bg-[#181c24] rounded-xl p-space-sm border border-slate-800/80 hover:border-slate-700 transition-all shadow-sm">
+<div class="flex items-start justify-between gap-2">
+<div class="flex-1">
+<div class="flex items-center gap-1.5">
+<h3 class="font-title-md text-title-md font-bold text-[#f3f4f6]">Air Mineral 600ml</h3>
+<span class="inline-flex items-center px-1.5 py-0.5 rounded text-[10px] font-bold bg-[#064e3b]/80 border border-emerald-500/30 text-[#6ee7b7]">
+<span class="material-symbols-outlined text-[12px] mr-0.5 material-symbols-fill" data-icon="check_circle">check_circle</span>
+                Cocok
+              </span>
+</div>
+<p class="font-body-sm text-body-sm text-[#94a3b8] tabular-nums mt-0.5">
+              Rp 5.000 / botol
+            </p>
+</div>
+<div class="text-right">
+<div class="font-currency-md text-currency-md font-extrabold text-[#f3f4f6] tabular-nums">
+              Rp 5.000
+            </div>
+<span class="font-label-xs text-label-xs text-[#64748b] font-medium">Subtotal</span>
+</div>
+</div>
+<div class="mt-space-sm pt-space-xs border-t border-slate-800 flex items-center justify-between">
+<div class="flex items-center bg-[#121620] border border-slate-800 rounded-lg p-0.5">
+<button class="w-7 h-7 rounded flex items-center justify-center hover:bg-[#1f2533] text-[#94a3b8] active:scale-90 transition-transform" type="button">
+<span class="material-symbols-outlined text-sm" data-icon="remove">remove</span>
+</button>
+<span class="w-8 text-center font-label-md text-label-md font-bold text-[#f3f4f6] tabular-nums">1</span>
+<button class="w-7 h-7 rounded flex items-center justify-center hover:bg-[#1f2533] text-[#94a3b8] active:scale-90 transition-transform" type="button">
+<span class="material-symbols-outlined text-sm" data-icon="add">add</span>
+</button>
+</div>
+<div class="flex items-center gap-1">
+<button class="w-8 h-8 rounded-lg flex items-center justify-center text-[#64748b] hover:text-[#10b981] hover:bg-[#1f2533] transition-colors" type="button">
+<span class="material-symbols-outlined text-base" data-icon="edit">edit</span>
+</button>
+<button class="w-8 h-8 rounded-lg flex items-center justify-center text-[#64748b] hover:text-red-400 hover:bg-red-950/40 transition-colors" type="button">
+<span class="material-symbols-outlined text-base" data-icon="delete">delete</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+<!-- Tombol Tambah Item Manual -->
+<button class="w-full py-3 px-4 rounded-xl border-2 border-dashed border-[#10b981]/50 bg-[#121620] text-[#10b981] hover:bg-[#10b981]/10 font-label-md text-label-md font-bold flex items-center justify-center gap-2 active:scale-[0.99] transition-all" type="button">
+<span class="material-symbols-outlined" data-icon="add_circle">add_circle</span>
+      Tambah Item Manual
+    </button>
+<!-- Card Deteksi Biaya Otomatis (Perforated Receipt Style) -->
+<div class="bg-[#181c24] rounded-xl border border-slate-800 overflow-hidden shadow-sm relative">
+<!-- Half-moon punch left and right -->
+<div class="absolute -left-2 top-28 w-4 h-4 rounded-full bg-[#0b0f17] border-r border-slate-800"></div>
+<div class="absolute -right-2 top-28 w-4 h-4 rounded-full bg-[#0b0f17] border-l border-slate-800"></div>
+<div class="p-space-md space-y-space-sm">
+<div class="flex items-center justify-between text-[#94a3b8] font-label-sm text-label-sm font-semibold">
+<span>Subtotal 6 Item</span>
+<span class="text-[#f3f4f6] font-currency-md text-currency-md tabular-nums font-bold">Rp 193.000</span>
+</div>
+<!-- Pajak Resto PB1 -->
+<div class="flex items-center justify-between text-[#94a3b8] font-label-sm text-label-sm">
+<div class="flex items-center gap-1.5">
+<span class="material-symbols-outlined text-base text-[#10b981]" data-icon="receipt">receipt</span>
+<span>Pajak Restoran (PB1 10%)</span>
+<button class="text-xs text-[#10b981] hover:underline font-bold" title="Ubah persentase pajak" type="button">Edit</button>
+</div>
+<span class="text-[#f3f4f6] tabular-nums font-semibold">+ Rp 19.300</span>
+</div>
+<!-- Service Charge -->
+<div class="flex items-center justify-between text-[#94a3b8] font-label-sm text-label-sm">
+<div class="flex items-center gap-1.5">
+<span class="material-symbols-outlined text-base text-slate-400" data-icon="room_service">room_service</span>
+<span>Service Charge (5%)</span>
+<button class="text-xs text-[#10b981] hover:underline font-bold" title="Ubah persentase service" type="button">Edit</button>
+</div>
+<span class="text-[#f3f4f6] tabular-nums font-semibold">+ Rp 9.650</span>
+</div>
+<!-- Diskon / Pembulatan (Optional toggle) -->
+<div class="flex items-center justify-between text-[#94a3b8] font-body-sm text-body-sm pt-1">
+<span class="text-[#64748b] font-medium">Pembulatan Nominal</span>
+<span class="text-[#64748b] tabular-nums">Rp 0</span>
+</div>
+</div>
+<!-- Perforation Divider -->
+<div class="perforated-border mx-3"></div>
+<!-- Total Preview -->
+<div class="p-space-md bg-[#131722]/80 flex items-center justify-between">
+<div>
+<span class="font-label-xs text-label-xs text-[#94a3b8] font-bold uppercase tracking-wider block">Total Struk Terkalkulasi</span>
+<span class="font-currency-display text-headline-md font-extrabold text-[#10b981] tabular-nums">Rp 221.950</span>
+</div>
+<div class="flex items-center gap-1 px-2.5 py-1 rounded-full bg-[#064e3b] border border-emerald-500/30 text-[#6ee7b7] font-label-xs text-label-xs font-bold">
+<span class="material-symbols-outlined text-sm material-symbols-fill" data-icon="check_circle">check_circle</span>
+          Hitungan Sesuai
+        </div>
+</div>
+</div>
+<!-- Bantuan / Petunjuk Footer -->
+<div class="text-center pb-6">
+<p class="font-body-sm text-body-sm text-[#94a3b8]">
+        Ada menu yang terlewat atau salah potong harga? Kamu tetap bisa merincinya di langkah pembagian peserta.
+      </p>
+</div>
+</main>
+<!-- Sticky Bottom Summary & Primary CTA (Bottom Floating Container Surface 2) -->
+<footer class="fixed bottom-0 left-0 w-full z-50 bg-[#10141d]/95 backdrop-blur border-t border-slate-800 shadow-[0_-8px_24px_-4px_rgba(0,0,0,0.5)]">
+<div class="max-w-md mx-auto px-margin py-space-sm flex items-center justify-between gap-3">
+<div class="flex flex-col">
+<span class="font-label-xs text-label-xs text-[#94a3b8] font-bold uppercase tracking-wider">Total Struk</span>
+<div class="flex items-baseline gap-1">
+<span class="font-currency-md text-headline-md font-extrabold text-[#f3f4f6] tabular-nums">Rp 221.950</span>
+</div>
+<span class="font-label-xs text-label-xs text-[#10b981] font-semibold">Termasuk PB1 &amp; Service</span>
+</div>
+<button class="flex-1 max-w-[240px] h-12 bg-[#10b981] hover:bg-emerald-400 text-slate-950 font-label-md text-label-md font-bold rounded-xl flex items-center justify-center gap-1.5 shadow-md active:scale-95 transition-all" type="button">
+<span>Lanjut: Bagi Rata</span>
+<span class="material-symbols-outlined text-base" data-icon="arrow_forward">arrow_forward</span>
+</button>
+</div>
+</footer>
+</body></html>

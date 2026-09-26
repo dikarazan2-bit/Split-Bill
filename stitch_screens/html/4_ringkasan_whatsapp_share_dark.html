@@ -1,0 +1,555 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="id"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Ringkasan Patungan - Layar 4</title>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          "colors": {
+            "primary-container": "#10b981",
+            "surface-container-highest": "#31353e",
+            "on-surface": "#dfe2ee",
+            "outline": "#86948a",
+            "secondary-fixed-dim": "#45dfa4",
+            "inverse-on-surface": "#2c3039",
+            "error-container": "#93000a",
+            "on-primary-fixed": "#002113",
+            "primary": "#4edea3",
+            "secondary": "#45dfa4",
+            "surface-container-low": "#181c24",
+            "tertiary-fixed": "#ffddb8",
+            "on-surface-variant": "#bbcabf",
+            "surface-container-high": "#262a33",
+            "on-tertiary-fixed-variant": "#653e00",
+            "on-tertiary": "#472a00",
+            "on-tertiary-fixed": "#2a1700",
+            "on-secondary-fixed-variant": "#005137",
+            "background": "#0b0f17",
+            "primary-fixed-dim": "#4edea3",
+            "error": "#ffb4ab",
+            "on-primary-fixed-variant": "#005236",
+            "on-background": "#dfe2ee",
+            "on-secondary-container": "#00452e",
+            "inverse-surface": "#dfe2ee",
+            "surface-variant": "#31353e",
+            "secondary-container": "#00bd85",
+            "tertiary": "#ffb95f",
+            "on-error-container": "#ffdad6",
+            "tertiary-container": "#e29100",
+            "on-secondary-fixed": "#002114",
+            "secondary-fixed": "#68fcbf",
+            "on-primary-container": "#00422b",
+            "surface-dim": "#0f131c",
+            "on-primary": "#003824",
+            "on-tertiary-container": "#523200",
+            "surface-container": "#1c2028",
+            "surface": "#0f131c",
+            "on-error": "#690005",
+            "surface-container-lowest": "#131720",
+            "surface-tint": "#4edea3",
+            "outline-variant": "#3c4a42",
+            "inverse-primary": "#006c49",
+            "tertiary-fixed-dim": "#ffb95f",
+            "surface-bright": "#353942",
+            "on-secondary": "#003825",
+            "primary-fixed": "#6ffbbe"
+          },
+          "borderRadius": {
+            "DEFAULT": "0.25rem",
+            "lg": "0.5rem",
+            "xl": "0.75rem",
+            "full": "9999px"
+          },
+          "spacing": {
+            "margin": "1rem",
+            "space-xl": "2rem",
+            "space-sm": "0.5rem",
+            "space-xs": "0.25rem",
+            "gutter-desktop": "1.5rem",
+            "margin-desktop": "2rem",
+            "space-md": "1rem",
+            "gutter": "1rem",
+            "space-lg": "1.5rem"
+          },
+          "fontFamily": {
+            "headline-xl-mobile": ["Plus Jakarta Sans"],
+            "label-md": ["Plus Jakarta Sans"],
+            "headline-xl": ["Plus Jakarta Sans"],
+            "currency-md": ["Plus Jakarta Sans"],
+            "currency-display": ["Plus Jakarta Sans"],
+            "body-lg": ["Plus Jakarta Sans"],
+            "headline-md": ["Plus Jakarta Sans"],
+            "headline-lg": ["Plus Jakarta Sans"],
+            "label-xs": ["Plus Jakarta Sans"],
+            "body-md": ["Plus Jakarta Sans"],
+            "label-sm": ["Plus Jakarta Sans"],
+            "body-sm": ["Plus Jakarta Sans"],
+            "title-md": ["Plus Jakarta Sans"]
+          },
+          "fontSize": {
+            "headline-xl-mobile": ["28px", { "lineHeight": "36px", "letterSpacing": "-0.02em", "fontWeight": "800" }],
+            "label-md": ["14px", { "lineHeight": "20px", "fontWeight": "600" }],
+            "headline-xl": ["36px", { "lineHeight": "44px", "letterSpacing": "-0.03em", "fontWeight": "800" }],
+            "currency-md": ["16px", { "lineHeight": "24px", "letterSpacing": "-0.01em", "fontWeight": "700" }],
+            "currency-display": ["32px", { "lineHeight": "40px", "letterSpacing": "-0.03em", "fontWeight": "800" }],
+            "body-lg": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+            "headline-md": ["20px", { "lineHeight": "28px", "letterSpacing": "-0.015em", "fontWeight": "700" }],
+            "headline-lg": ["24px", { "lineHeight": "32px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+            "label-xs": ["10px", { "lineHeight": "12px", "letterSpacing": "0.05em", "fontWeight": "700" }],
+            "body-md": ["14px", { "lineHeight": "20px", "fontWeight": "400" }],
+            "label-sm": ["12px", { "lineHeight": "16px", "fontWeight": "600" }],
+            "body-sm": ["12px", { "lineHeight": "16px", "fontWeight": "400" }],
+            "title-md": ["16px", { "lineHeight": "24px", "fontWeight": "600" }]
+          }
+        }
+      }
+    }
+  </script>
+<style>
+    .material-symbols-outlined {
+      font-variation-settings: 'FILL' 0, 'wght' 500, 'GRAD' 0, 'opsz' 24;
+      display: inline-block;
+      vertical-align: middle;
+      line-height: 1;
+    }
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+</head>
+<body class="bg-[#0b0f17] text-[#f8fafc] antialiased min-h-screen flex flex-col justify-between selection:bg-emerald-500 selection:text-slate-950">
+<!-- TOP APP BAR -->
+<header class="bg-[#0f131c]/90 backdrop-blur-md border-b border-slate-800/80 sticky top-0 z-40">
+<div class="flex justify-between items-center w-full px-margin py-space-sm max-w-md mx-auto">
+<div class="flex items-center gap-space-sm">
+<button aria-label="Kembali" class="w-9 h-9 rounded-full flex items-center justify-center hover:bg-slate-800 text-slate-300 transition-colors duration-150 active:scale-95" type="button">
+<span class="material-symbols-outlined text-emerald-400" data-icon="receipt_long">receipt_long</span>
+</button>
+<div>
+<h1 class="text-headline-md font-headline-md font-extrabold text-emerald-400">Ringkasan Patungan</h1>
+<p class="text-label-xs font-label-xs text-slate-400">Layar Rincian &amp; Bagikan</p>
+</div>
+</div>
+<div class="flex items-center gap-space-xs">
+<button class="flex items-center gap-1.5 px-3 py-1.5 bg-[#10b981] hover:bg-emerald-400 text-slate-950 rounded-xl text-label-sm font-label-sm font-bold shadow-sm hover:brightness-105 active:scale-95 transition-all" id="topShareBtn" type="button">
+<span class="material-symbols-outlined text-[18px]" data-icon="share">share</span>
+<span>Bagikan</span>
+</button>
+</div>
+</div>
+</header>
+<!-- MAIN CANVAS -->
+<main class="w-full max-w-md mx-auto px-margin pt-space-md pb-32 flex-1 flex flex-col gap-space-md">
+<!-- BANNER SUKSES & STATUS VERIFIKASI -->
+<div class="bg-[#141923] border border-emerald-900/50 rounded-2xl p-space-md shadow-sm flex items-start gap-space-sm">
+<div class="w-8 h-8 rounded-full bg-emerald-500/10 text-emerald-400 flex items-center justify-center shrink-0 mt-0.5">
+<span class="material-symbols-outlined text-emerald-400 text-[20px]" data-icon="verified" style="font-variation-settings: 'FILL' 1;">verified</span>
+</div>
+<div class="flex-1">
+<div class="flex items-center justify-between">
+<span class="text-label-sm font-label-sm font-bold text-emerald-400">Tagihan Berhasil Dihitung</span>
+<span class="inline-flex items-center px-2 py-0.5 rounded-full text-label-xs font-label-xs font-bold bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">
+            100% Cocok
+          </span>
+</div>
+<p class="text-body-sm font-body-sm text-slate-400 mt-0.5">
+          Algoritma Largest-Remainder aktif: jumlah bayar seluruh partisipan presisi tanpa sisa seserpih pun.
+        </p>
+</div>
+</div>
+<!-- PREVIEW TOGGLE (PEMBUAT vs READ-ONLY PENERIMA) -->
+<div class="bg-[#141923] rounded-xl p-1 flex items-center gap-1 border border-slate-800">
+<button class="flex-1 py-1.5 px-3 rounded-lg text-label-sm font-label-sm text-center transition-all bg-[#1e2432] text-emerald-400 font-bold shadow-xs border border-slate-700/60" id="viewMakerBtn" type="button">
+        Mode Pembuat
+      </button>
+<button class="flex-1 py-1.5 px-3 rounded-lg text-label-sm font-label-sm text-slate-400 text-center transition-all hover:text-slate-200" id="viewReceiverBtn" type="button">
+        Lihat Penerima (Read-only)
+      </button>
+</div>
+<!-- TOTAL FINTECH HERO CARD (SLEEK DARK TICKET) -->
+<div class="relative bg-gradient-to-b from-[#1e2432] to-[#181c24] border border-slate-800/90 rounded-2xl p-space-lg shadow-lg overflow-hidden">
+<!-- Top Receipt Accent -->
+<div class="flex items-center justify-between pb-space-sm">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-emerald-400" data-icon="account_balance_wallet">account_balance_wallet</span>
+<span class="text-label-sm font-label-sm font-bold text-slate-400 tracking-wider">GRAND TOTAL STRUK</span>
+</div>
+<span class="text-label-xs font-label-xs px-2 py-0.5 rounded bg-slate-800/90 text-slate-300 font-semibold border border-slate-700/50">
+          4 Orang Terlibat
+        </span>
+</div>
+<!-- Main Currency Amount -->
+<div class="my-space-sm">
+<span class="text-currency-display font-currency-display tracking-tight text-white font-extrabold">
+          Rp 177.480
+        </span>
+</div>
+<!-- Perforated Line Decoration -->
+<div class="relative my-space-md py-1">
+<div class="w-full border-b border-dashed border-slate-700"></div>
+<div class="absolute -left-7 top-1/2 -translate-y-1/2 w-4 h-4 rounded-full bg-[#0b0f17] border-r border-slate-800"></div>
+<div class="absolute -right-7 top-1/2 -translate-y-1/2 w-4 h-4 rounded-full bg-[#0b0f17] border-l border-slate-800"></div>
+</div>
+<!-- Breakdown Grid -->
+<div class="grid grid-cols-2 gap-y-2.5 gap-x-4 text-body-sm font-body-sm">
+<div class="flex justify-between items-center">
+<span class="text-slate-400">Subtotal Makanan:</span>
+<span class="font-bold tabular-nums text-slate-200">Rp 153.000</span>
+</div>
+<div class="flex justify-between items-center">
+<span class="text-slate-400">PPN 11%:</span>
+<span class="font-bold tabular-nums text-slate-200">Rp 16.830</span>
+</div>
+<div class="flex justify-between items-center">
+<span class="text-slate-400">Service 5%:</span>
+<span class="font-bold tabular-nums text-slate-200">Rp 7.650</span>
+</div>
+<div class="flex justify-between items-center">
+<span class="text-slate-400">Aturan Bulat:</span>
+<span class="font-semibold text-emerald-400 text-label-sm">Rp 1.000 (Presisi)</span>
+</div>
+</div>
+</div>
+<!-- DAFTAR RINCIAN PER ORANG (ACCORDION STACK) -->
+<div class="space-y-space-sm">
+<div class="flex items-center justify-between px-1">
+<h2 class="text-title-md font-title-md text-white font-bold">Pembagian Tiap Orang</h2>
+<span class="text-label-xs font-label-xs text-slate-400">Ketuk untuk rincian menu</span>
+</div>
+<!-- CARD 1: ARIEF -->
+<details class="group bg-[#151a24] border border-slate-800/80 rounded-2xl overflow-hidden transition-all duration-200 open:shadow-md">
+<summary class="list-none p-space-md flex items-center justify-between cursor-pointer select-none hover:bg-slate-800/40 transition-colors">
+<div class="flex items-center gap-space-sm">
+<div class="w-10 h-10 rounded-full bg-blue-950 text-blue-300 border border-blue-800/60 flex items-center justify-center font-bold text-label-md shrink-0">
+              AR
+            </div>
+<div>
+<div class="flex items-center gap-1.5">
+<span class="text-title-md font-title-md text-[#f8fafc] font-bold">Arief</span>
+<span class="text-label-xs font-label-xs px-2 py-0.2 bg-slate-800 text-slate-400 rounded">3 menu</span>
+</div>
+<span class="text-label-xs font-label-xs text-slate-400">Dibulatkan rapi ke Rp 1.000</span>
+</div>
+</div>
+<div class="text-right flex items-center gap-2">
+<div>
+<div class="text-currency-md font-currency-md text-white font-bold tabular-nums">Rp 63.000</div>
+<div class="text-label-xs font-label-xs text-slate-500 line-through tabular-nums">Rp 63.220</div>
+</div>
+<span class="material-symbols-outlined text-slate-400 transition-transform duration-200 group-open:rotate-180" data-icon="expand_more">expand_more</span>
+</div>
+</summary>
+<div class="px-space-md pb-space-md pt-2 bg-[#111620] border-t border-dashed border-slate-800 space-y-2 text-body-sm font-body-sm">
+<div class="flex justify-between text-slate-400">
+<span>1x Nasi Bebek Betutu Spesial</span>
+<span class="tabular-nums font-semibold text-slate-200">Rp 42.000</span>
+</div>
+<div class="flex justify-between text-slate-400">
+<span>1x Es Jeruk Murni</span>
+<span class="tabular-nums font-semibold text-slate-200">Rp 12.500</span>
+</div>
+<div class="flex justify-between text-slate-400">
+<span>Proporsi Pajak PPN &amp; Service</span>
+<span class="tabular-nums font-semibold text-slate-200">Rp 8.720</span>
+</div>
+<div class="pt-2 border-t border-slate-800 flex justify-between items-center text-label-sm font-label-sm">
+<span class="text-slate-400">Subtotal Riil: Rp 54.500</span>
+<span class="font-bold text-emerald-400">Final: Rp 63.000</span>
+</div>
+</div>
+</details>
+<!-- CARD 2: BUDI (NOMBOK PEMBULATAN SESUAI PRD §6.4.5) -->
+<details class="group bg-[#151a24] border-2 border-emerald-500/50 rounded-2xl overflow-hidden transition-all duration-200 shadow-md" open="">
+<summary class="list-none p-space-md flex items-center justify-between cursor-pointer select-none hover:bg-slate-800/40 transition-colors">
+<div class="flex items-center gap-space-sm">
+<div class="w-10 h-10 rounded-full bg-amber-950/70 text-amber-300 border border-amber-800/60 flex items-center justify-center font-bold text-label-md shrink-0">
+              BU
+            </div>
+<div>
+<div class="flex items-center gap-1.5 flex-wrap">
+<span class="text-title-md font-title-md text-[#f8fafc] font-bold">Budi</span>
+<span class="inline-flex items-center gap-0.5 text-label-xs font-label-xs px-2 py-0.5 rounded-full bg-amber-950 text-amber-300 border border-amber-800/60 font-bold">
+<span class="material-symbols-outlined text-[13px]" data-icon="tune">tune</span> Nombok Selisih
+                </span>
+</div>
+<span class="text-label-xs font-label-xs text-slate-400">Penyesuaian largest-remainder</span>
+</div>
+</div>
+<div class="text-right flex items-center gap-2">
+<div>
+<div class="text-currency-md font-currency-md text-emerald-400 font-bold tabular-nums">Rp 42.480</div>
+<div class="text-label-xs font-label-xs text-slate-400">Termasuk +Rp 480</div>
+</div>
+<span class="material-symbols-outlined text-emerald-400 transition-transform duration-200 group-open:rotate-180" data-icon="expand_more">expand_more</span>
+</div>
+</summary>
+<!-- BADGE INFO TRANSPARAN PEMBULATAN STRUK -->
+<div class="px-space-md py-2.5 bg-amber-950/40 border-y border-amber-900/50 flex items-start gap-2">
+<span class="material-symbols-outlined text-amber-400 text-[18px] shrink-0 mt-0.5" data-icon="info">info</span>
+<p class="text-label-xs font-label-xs text-amber-200/90 leading-relaxed">
+<strong class="text-amber-300">Penyesuaian Sistem:</strong> Termasuk penyesuaian selisih pembulatan struk <strong class="text-amber-300">+Rp 480</strong> agar total 100% pas sesuai PRD §6.4.5.
+          </p>
+</div>
+<div class="px-space-md pb-space-md pt-2 bg-[#111620] space-y-2 text-body-sm font-body-sm">
+<div class="flex justify-between text-slate-400">
+<span>1x Ayam Bakar Taliwang</span>
+<span class="tabular-nums font-semibold text-slate-200">Rp 30.000</span>
+</div>
+<div class="flex justify-between text-slate-400">
+<span>1x Teh Hangat</span>
+<span class="tabular-nums font-semibold text-slate-200">Rp 6.000</span>
+</div>
+<div class="flex justify-between text-slate-400">
+<span>Proporsi PPN &amp; Service</span>
+<span class="tabular-nums font-semibold text-slate-200">Rp 5.760</span>
+</div>
+<div class="flex justify-between text-amber-400 font-medium">
+<span>Sisa Penyesuaian Struk Terbesar</span>
+<span class="tabular-nums font-bold">+Rp 480</span>
+</div>
+<div class="pt-2 border-t border-slate-800 flex justify-between items-center text-label-sm font-label-sm">
+<span class="text-slate-400">Subtotal: Rp 36.000</span>
+<span class="font-bold text-emerald-400">Final: Rp 42.480</span>
+</div>
+</div>
+</details>
+<!-- CARD 3: CITRA -->
+<details class="group bg-[#151a24] border border-slate-800/80 rounded-2xl overflow-hidden transition-all duration-200 open:shadow-md">
+<summary class="list-none p-space-md flex items-center justify-between cursor-pointer select-none hover:bg-slate-800/40 transition-colors">
+<div class="flex items-center gap-space-sm">
+<div class="w-10 h-10 rounded-full bg-purple-950 text-purple-300 border border-purple-800/60 flex items-center justify-center font-bold text-label-md shrink-0">
+              CI
+            </div>
+<div>
+<div class="flex items-center gap-1.5">
+<span class="text-title-md font-title-md text-[#f8fafc] font-bold">Citra</span>
+<span class="text-label-xs font-label-xs px-2 py-0.2 bg-slate-800 text-slate-400 rounded">2 menu</span>
+</div>
+<span class="text-label-xs font-label-xs text-slate-400">Dibulatkan rapi ke Rp 1.000</span>
+</div>
+</div>
+<div class="text-right flex items-center gap-2">
+<div>
+<div class="text-currency-md font-currency-md text-white font-bold tabular-nums">Rp 52.000</div>
+<div class="text-label-xs font-label-xs text-slate-500 tabular-nums">Rp 52.200</div>
+</div>
+<span class="material-symbols-outlined text-slate-400 transition-transform duration-200 group-open:rotate-180" data-icon="expand_more">expand_more</span>
+</div>
+</summary>
+<div class="px-space-md pb-space-md pt-2 bg-[#111620] border-t border-dashed border-slate-800 space-y-2 text-body-sm font-body-sm">
+<div class="flex justify-between text-slate-400">
+<span>1x Gurame Asam Manis (Split 1/2)</span>
+<span class="tabular-nums font-semibold text-slate-200">Rp 35.000</span>
+</div>
+<div class="flex justify-between text-slate-400">
+<span>1x Kelapa Muda Batok</span>
+<span class="tabular-nums font-semibold text-slate-200">Rp 10.000</span>
+</div>
+<div class="flex justify-between text-slate-400">
+<span>Proporsi PPN &amp; Service</span>
+<span class="tabular-nums font-semibold text-slate-200">Rp 7.200</span>
+</div>
+<div class="pt-2 border-t border-slate-800 flex justify-between items-center text-label-sm font-label-sm">
+<span class="text-slate-400">Subtotal: Rp 45.000</span>
+<span class="font-bold text-emerald-400">Final: Rp 52.000</span>
+</div>
+</div>
+</details>
+<!-- CARD 4: DINA -->
+<details class="group bg-[#151a24] border border-slate-800/80 rounded-2xl overflow-hidden transition-all duration-200 open:shadow-md">
+<summary class="list-none p-space-md flex items-center justify-between cursor-pointer select-none hover:bg-slate-800/40 transition-colors">
+<div class="flex items-center gap-space-sm">
+<div class="w-10 h-10 rounded-full bg-rose-950 text-rose-300 border border-rose-800/60 flex items-center justify-center font-bold text-label-md shrink-0">
+              DI
+            </div>
+<div>
+<div class="flex items-center gap-1.5">
+<span class="text-title-md font-title-md text-[#f8fafc] font-bold">Dina</span>
+<span class="text-label-xs font-label-xs px-2 py-0.2 bg-slate-800 text-slate-400 rounded">1 menu</span>
+</div>
+<span class="text-label-xs font-label-xs text-slate-400">Dibulatkan rapi ke Rp 1.000</span>
+</div>
+</div>
+<div class="text-right flex items-center gap-2">
+<div>
+<div class="text-currency-md font-currency-md text-white font-bold tabular-nums">Rp 20.000</div>
+<div class="text-label-xs font-label-xs text-slate-500 tabular-nums">Rp 20.300</div>
+</div>
+<span class="material-symbols-outlined text-slate-400 transition-transform duration-200 group-open:rotate-180" data-icon="expand_more">expand_more</span>
+</div>
+</summary>
+<div class="px-space-md pb-space-md pt-2 bg-[#111620] border-t border-dashed border-slate-800 space-y-2 text-body-sm font-body-sm">
+<div class="flex justify-between text-slate-400">
+<span>1x Kwetiau Goreng Sapi</span>
+<span class="tabular-nums font-semibold text-slate-200">Rp 17.500</span>
+</div>
+<div class="flex justify-between text-slate-400">
+<span>Proporsi PPN &amp; Service</span>
+<span class="tabular-nums font-semibold text-slate-200">Rp 2.800</span>
+</div>
+<div class="pt-2 border-t border-slate-800 flex justify-between items-center text-label-sm font-label-sm">
+<span class="text-slate-400">Subtotal: Rp 17.500</span>
+<span class="font-bold text-emerald-400">Final: Rp 20.000</span>
+</div>
+</div>
+</details>
+</div>
+<!-- AUDIT VERIFIKASI KALKULASI -->
+<div class="bg-[#141923] border border-slate-800 rounded-xl p-space-sm flex items-center justify-between text-label-xs font-label-xs text-slate-400">
+<span>Verifikasi: 63rb + 42.480 + 52rb + 20rb</span>
+<span class="font-bold text-emerald-400 tabular-nums">= Rp 177.480 (100% Pas)</span>
+</div>
+<!-- WHATSAPP & SHARE SECTION -->
+<div class="bg-[#151a24] border border-slate-800/80 rounded-2xl p-space-md space-y-space-md shadow-sm">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-[#25D366] text-[22px]" data-icon="chat" style="font-variation-settings: 'FILL' 1;">chat</span>
+<span class="text-title-md font-title-md text-[#f8fafc] font-bold">Bagikan via WhatsApp</span>
+</div>
+<span class="text-label-xs font-label-xs font-semibold px-2 py-0.5 rounded bg-emerald-950 text-emerald-300 border border-emerald-800/50">
+          Format Rapi
+        </span>
+</div>
+<!-- Preview Text Box (Terminal-like dark background) -->
+<div class="relative bg-[#0f172a] rounded-xl p-3 border border-slate-800 font-mono text-body-sm leading-relaxed text-slate-300 overflow-x-auto select-all shadow-inner">
+<p class="whitespace-pre-line text-xs font-mono"><span class="text-slate-300">Halo gaes! Rincian patungan makan siang tadi:</span>
+<span class="text-slate-600">━━━━━━━━━━━━━━━━━</span>
+<span class="text-emerald-400 font-semibold">1. Arief: Rp 63.000</span>
+<span class="text-emerald-400 font-semibold">2. Budi: Rp 42.480 (incl. adj struk +480)</span>
+<span class="text-emerald-400 font-semibold">3. Citra: Rp 52.000</span>
+<span class="text-emerald-400 font-semibold">4. Dina: Rp 20.000</span>
+<span class="text-slate-600">━━━━━━━━━━━━━━━━━</span>
+<span class="text-emerald-300 font-bold">*Total Struk: Rp 177.480* (100% Cocok)</span>
+<span class="text-slate-400">Link rincian interaktif (tanpa login):</span>
+<span class="text-cyan-400 underline">https://patungan.app/#v1.x9Ka7L90z</span>
+<span class="text-slate-400">Transfer via QRIS / BCA ya. Makasih!</span></p>
+</div>
+<!-- Action Buttons -->
+<div class="grid grid-cols-1 gap-2.5">
+<!-- WhatsApp Primary CTA -->
+<a class="h-12 w-full bg-[#10b981] hover:bg-[#059669] text-slate-950 font-label-md font-bold rounded-xl flex items-center justify-center gap-2 shadow-sm transition-transform active:scale-[0.98]" href="https://wa.me/?text=Halo%20gaes!%20Rincian%20patungan%20makan%20siang%20tadi:%201.%20Arief:%20Rp%2063.000,%202.%20Budi:%20Rp%2042.480,%203.%20Citra:%20Rp%2052.000,%204.%20Dina:%20Rp%2020.000.%20Total:%20Rp%20177.480.%20Rincian:%20https://patungan.app/%23v1.x9Ka7L90z" rel="noopener noreferrer" target="_blank">
+<span class="material-symbols-outlined text-[20px]" data-icon="send">send</span>
+<span>Kirim ke WhatsApp</span>
+</a>
+<!-- Copy URL State CTA -->
+<button class="h-11 w-full bg-[#1c2230] hover:bg-slate-800 text-slate-200 border border-slate-700/60 font-label-sm font-semibold rounded-xl flex items-center justify-center gap-2 transition-all active:scale-[0.98]" id="copyUrlBtn" type="button">
+<span class="material-symbols-outlined text-slate-400" data-icon="link">link</span>
+<span id="copyUrlText">Salin Link Patungan (<span class="font-mono text-xs text-slate-400">#v1.x9K...</span>)</span>
+</button>
+</div>
+<!-- State URL Explainer -->
+<div class="flex items-center gap-2 px-1 text-label-xs font-label-xs text-slate-400">
+<span class="material-symbols-outlined text-[16px] text-emerald-400" data-icon="lock_open">lock_open</span>
+<span>URL State: Data terenkripsi di hash link. Buka instan tanpa server database.</span>
+</div>
+</div>
+<!-- SECONDARY ACTIONS -->
+<div class="flex items-center justify-between pt-2">
+<button class="text-body-sm font-label-sm text-slate-400 hover:text-slate-200 flex items-center gap-1 py-2 px-1" type="button">
+<span class="material-symbols-outlined text-[18px]" data-icon="edit">edit</span>
+<span>Edit Ulang Tagihan</span>
+</button>
+<button class="text-body-sm font-label-sm text-emerald-400 hover:text-emerald-300 hover:underline flex items-center gap-1 py-2 px-1" type="button">
+<span class="material-symbols-outlined text-[18px]" data-icon="download">download</span>
+<span>Simpan Gambar Struk</span>
+</button>
+</div>
+</main>
+<!-- BOTTOM PERSISTENT ACTION BAR -->
+<aside class="fixed bottom-0 left-0 w-full z-50 bg-[#0f131c]/95 backdrop-blur-md border-t border-slate-800/80 shadow-2xl pb-safe">
+<div class="max-w-md mx-auto px-margin py-3 flex items-center gap-3">
+<button class="flex-1 h-12 bg-[#10b981] hover:bg-[#059669] text-slate-950 rounded-xl font-label-md font-bold flex items-center justify-center gap-2 shadow-sm transition-transform active:scale-[0.98]" id="quickCopyBtn" type="button">
+<span class="material-symbols-outlined text-[20px]" data-icon="content_copy">content_copy</span>
+<span id="quickCopyLabel">Salin Ringkasan Teks</span>
+</button>
+<button aria-label="Buka Opsi Pembayaran QRIS" class="w-12 h-12 bg-[#1c2230] hover:bg-slate-800 text-slate-200 border border-slate-700/60 rounded-xl flex items-center justify-center shrink-0 active:scale-95 transition-all" type="button">
+<span class="material-symbols-outlined text-emerald-400 text-[22px]" data-icon="qr_code_2">qr_code_2</span>
+</button>
+</div>
+</aside>
+<!-- TOAST NOTIFICATION -->
+<div class="fixed top-16 left-1/2 -translate-x-1/2 z-50 opacity-0 pointer-events-none transition-all duration-300 bg-slate-900 border border-slate-700 text-slate-100 px-4 py-2.5 rounded-full text-label-sm font-label-sm flex items-center gap-2 shadow-2xl" id="toast">
+<span class="material-symbols-outlined text-emerald-400 text-[18px]" data-icon="check_circle">check_circle</span>
+<span id="toastMsg">Teks berhasil disalin ke clipboard!</span>
+</div>
+<!-- SCRIPT UNTUK INTERAKTIVITAS RINGAN -->
+<script>
+    const toast = document.getElementById('toast');
+    const toastMsg = document.getElementById('toastMsg');
+
+    function showToast(message) {
+      toastMsg.textContent = message;
+      toast.classList.remove('opacity-0', 'pointer-events-none');
+      toast.classList.add('opacity-100');
+      setTimeout(() => {
+        toast.classList.remove('opacity-100');
+        toast.classList.add('opacity-0', 'pointer-events-none');
+      }, 2200);
+    }
+
+    const summaryText = `Halo gaes! Rincian patungan makan siang tadi:
+━━━━━━━━━━━━━━━━━
+1. Arief: Rp 63.000
+2. Budi: Rp 42.480 (incl. adj struk +480)
+3. Citra: Rp 52.000
+4. Dina: Rp 20.000
+━━━━━━━━━━━━━━━━━
+Total Struk: Rp 177.480 (100% Cocok)
+
+Link rincian: https://patungan.app/#v1.x9Ka7L90z`;
+
+    // Quick copy button
+    document.getElementById('quickCopyBtn').addEventListener('click', () => {
+      navigator.clipboard.writeText(summaryText).then(() => {
+        showToast("Ringkasan WhatsApp berhasil disalin!");
+      }).catch(() => {
+        showToast("Ringkasan siap dikirim!");
+      });
+    });
+
+    // Copy URL State
+    document.getElementById('copyUrlBtn').addEventListener('click', () => {
+      navigator.clipboard.writeText('https://patungan.app/#v1.x9Ka7L90z').then(() => {
+        showToast("Link Patungan statis disalin!");
+      });
+    });
+
+    // Top Share Button
+    document.getElementById('topShareBtn').addEventListener('click', () => {
+      if (navigator.share) {
+        navigator.share({
+          title: 'Ringkasan Patungan',
+          text: summaryText,
+          url: 'https://patungan.app/#v1.x9Ka7L90z',
+        }).catch(() => {});
+      } else {
+        showToast("Tautan siap dibagikan!");
+      }
+    });
+
+    // Toggle Preview Mode
+    const viewMakerBtn = document.getElementById('viewMakerBtn');
+    const viewReceiverBtn = document.getElementById('viewReceiverBtn');
+
+    viewReceiverBtn.addEventListener('click', () => {
+      viewReceiverBtn.className = "flex-1 py-1.5 px-3 rounded-lg text-label-sm font-label-sm text-center transition-all bg-[#1e2432] text-emerald-400 font-bold shadow-xs border border-slate-700/60";
+      viewMakerBtn.className = "flex-1 py-1.5 px-3 rounded-lg text-label-sm font-label-sm text-slate-400 text-center transition-all hover:text-slate-200 border-none";
+      showToast("Beralih ke tampilan Read-only (Penerima)");
+    });
+
+    viewMakerBtn.addEventListener('click', () => {
+      viewMakerBtn.className = "flex-1 py-1.5 px-3 rounded-lg text-label-sm font-label-sm text-center transition-all bg-[#1e2432] text-emerald-400 font-bold shadow-xs border border-slate-700/60";
+      viewReceiverBtn.className = "flex-1 py-1.5 px-3 rounded-lg text-label-sm font-label-sm text-slate-400 text-center transition-all hover:text-slate-200 border-none";
+      showToast("Beralih ke tampilan Mode Pembuat");
+    });
+  </script>
+</body></html>

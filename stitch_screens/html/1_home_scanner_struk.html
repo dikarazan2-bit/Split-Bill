@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+
+<html lang="id"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Patungan - Split Bill Cepat & Tanpa Ribet</title>
+<!-- Google Fonts & Material Symbols -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@100..900&display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS with forms & container-queries -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          "colors": {
+            "primary-container": "#10b981",
+            "surface-container-highest": "#d3e4fe",
+            "on-surface": "#0b1c30",
+            "outline": "#6c7a71",
+            "secondary-fixed-dim": "#bec6e0",
+            "inverse-on-surface": "#eaf1ff",
+            "error-container": "#ffdad6",
+            "on-primary-fixed": "#002113",
+            "primary": "#006c49",
+            "secondary": "#565e74",
+            "surface-container-low": "#eff4ff",
+            "tertiary-fixed": "#ffddb8",
+            "on-surface-variant": "#3c4a42",
+            "surface-container-high": "#dce9ff",
+            "on-tertiary-fixed-variant": "#653e00",
+            "on-tertiary": "#ffffff",
+            "on-tertiary-fixed": "#2a1700",
+            "on-secondary-fixed-variant": "#3f465c",
+            "background": "#f8f9ff",
+            "primary-fixed-dim": "#4edea3",
+            "error": "#ba1a1a",
+            "on-primary-fixed-variant": "#005236",
+            "on-background": "#0b1c30",
+            "on-secondary-container": "#5c647a",
+            "inverse-surface": "#213145",
+            "surface-variant": "#d3e4fe",
+            "secondary-container": "#dae2fd",
+            "tertiary": "#855300",
+            "on-error-container": "#93000a",
+            "tertiary-container": "#e29100",
+            "on-secondary-fixed": "#131b2e",
+            "secondary-fixed": "#dae2fd",
+            "on-primary-container": "#00422b",
+            "surface-dim": "#cbdbf5",
+            "on-primary": "#ffffff",
+            "on-tertiary-container": "#523200",
+            "surface-container": "#e5eeff",
+            "surface": "#f8f9ff",
+            "on-error": "#ffffff",
+            "surface-container-lowest": "#ffffff",
+            "surface-tint": "#006c49",
+            "outline-variant": "#bbcabf",
+            "inverse-primary": "#4edea3",
+            "tertiary-fixed-dim": "#ffb95f",
+            "surface-bright": "#f8f9ff",
+            "on-secondary": "#ffffff",
+            "primary-fixed": "#6ffbbe"
+          },
+          "borderRadius": {
+            "DEFAULT": "0.25rem",
+            "lg": "0.5rem",
+            "xl": "0.75rem",
+            "full": "9999px"
+          },
+          "spacing": {
+            "margin": "1rem",
+            "space-xl": "2rem",
+            "space-sm": "0.5rem",
+            "space-xs": "0.25rem",
+            "gutter-desktop": "1.5rem",
+            "margin-desktop": "2rem",
+            "space-md": "1rem",
+            "gutter": "1rem",
+            "space-lg": "1.5rem"
+          },
+          "fontFamily": {
+            "headline-xl-mobile": ["Plus Jakarta Sans"],
+            "label-md": ["Plus Jakarta Sans"],
+            "headline-xl": ["Plus Jakarta Sans"],
+            "currency-md": ["Plus Jakarta Sans"],
+            "currency-display": ["Plus Jakarta Sans"],
+            "body-lg": ["Plus Jakarta Sans"],
+            "headline-md": ["Plus Jakarta Sans"],
+            "headline-lg": ["Plus Jakarta Sans"],
+            "label-xs": ["Plus Jakarta Sans"],
+            "body-md": ["Plus Jakarta Sans"],
+            "label-sm": ["Plus Jakarta Sans"],
+            "body-sm": ["Plus Jakarta Sans"],
+            "title-md": ["Plus Jakarta Sans"]
+          },
+          "fontSize": {
+            "headline-xl-mobile": ["28px", { "lineHeight": "36px", "letterSpacing": "-0.02em", "fontWeight": "800" }],
+            "label-md": ["14px", { "lineHeight": "20px", "fontWeight": "600" }],
+            "headline-xl": ["36px", { "lineHeight": "44px", "letterSpacing": "-0.03em", "fontWeight": "800" }],
+            "currency-md": ["16px", { "lineHeight": "24px", "letterSpacing": "-0.01em", "fontWeight": "700" }],
+            "currency-display": ["32px", { "lineHeight": "40px", "letterSpacing": "-0.03em", "fontWeight": "800" }],
+            "body-lg": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+            "headline-md": ["20px", { "lineHeight": "28px", "letterSpacing": "-0.015em", "fontWeight": "700" }],
+            "headline-lg": ["24px", { "lineHeight": "32px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+            "label-xs": ["10px", { "lineHeight": "12px", "letterSpacing": "0.05em", "fontWeight": "700" }],
+            "body-md": ["14px", { "lineHeight": "20px", "fontWeight": "400" }],
+            "label-sm": ["12px", { "lineHeight": "16px", "fontWeight": "600" }],
+            "body-sm": ["12px", { "lineHeight": "16px", "fontWeight": "400" }],
+            "title-md": ["16px", { "lineHeight": "24px", "fontWeight": "600" }]
+          }
+        }
+      }
+    }
+  </script>
+<style>
+    .material-symbols-outlined {
+      font-variation-settings: 'FILL' 0, 'wght' 500, 'GRAD' 0, 'opsz' 24;
+      display: inline-block;
+      vertical-align: middle;
+      line-height: 1;
+    }
+    .perforated-border {
+      background-image: linear-gradient(to right, #bbcabf 50%, rgba(255,255,255,0) 0%);
+      background-position: bottom;
+      background-size: 10px 1.5px;
+      background-repeat: repeat-x;
+    }
+    .pb-safe {
+      padding-bottom: calc(0.75rem + env(safe-area-inset-bottom, 0px));
+    }
+  </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background text-on-surface antialiased min-h-screen flex flex-col font-body-md text-body-md selection:bg-primary-container selection:text-on-primary-container">
+<!-- TOP APP BAR (from Shared Components JSON: TopAppBar) -->
+<header class="bg-surface dark:bg-inverse-surface border-b border-outline-variant/30 dark:border-outline/20 flex justify-between items-center w-full px-margin py-space-sm max-w-md mx-auto sticky top-0 z-40">
+<div class="flex items-center gap-space-sm">
+<span class="material-symbols-outlined text-primary dark:text-inverse-primary text-headline-md" data-icon="receipt_long">receipt_long</span>
+<div class="flex flex-col">
+<span class="text-headline-md font-headline-md font-extrabold text-primary dark:text-primary-fixed leading-tight tracking-tight">Patungan</span>
+<span class="font-label-xs text-label-xs text-on-surface-variant font-bold">Split bill cepat tanpa ribet</span>
+</div>
+</div>
+<div class="flex items-center gap-2">
+<!-- Status Badge -->
+<div class="hidden xs:flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-primary/10 border border-primary/20">
+<span class="w-1.5 h-1.5 rounded-full bg-primary-container animate-pulse"></span>
+<span class="font-label-xs text-label-xs text-primary font-bold">Client-Side</span>
+</div>
+<button aria-label="Bagikan Aplikasi" class="p-2 rounded-xl text-primary dark:text-inverse-primary hover:bg-surface-container-high dark:hover:bg-surface-variant transition-colors duration-150 active:scale-95" type="button">
+<span class="material-symbols-outlined" data-icon="share">share</span>
+</button>
+</div>
+</header>
+<!-- MAIN SCROLLABLE CONTENT CANVAS (Mobile frame max-w-md) -->
+<main class="flex-1 w-full max-w-md mx-auto px-margin pt-space-md pb-28 space-y-space-lg">
+<!-- Hero Section Banner -->
+<section class="relative overflow-hidden rounded-2xl bg-surface-container-lowest border border-outline-variant/30 p-space-lg shadow-sm">
+<!-- Ambient Glow Decorator -->
+<div class="absolute -top-12 -right-12 w-36 h-36 bg-primary-fixed-dim/40 rounded-full blur-2xl pointer-events-none"></div>
+<div class="relative z-10 flex flex-col items-start gap-space-xs">
+<div class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-surface-container-low border border-outline-variant/40">
+<span class="material-symbols-outlined text-primary text-label-sm" data-icon="verified_user">verified_user</span>
+<span class="font-label-xs text-label-xs text-on-surface-variant">Tanpa Login • 100% Client-Side</span>
+</div>
+<h1 class="font-headline-xl-mobile text-headline-xl-mobile text-on-surface mt-1">
+          Bagi tagihan makan bareng tanpa salah hitung.
+        </h1>
+<p class="font-body-md text-body-md text-on-surface-variant mt-1 leading-relaxed">
+          Ambil foto struk restoran atau kafe favoritmu. Sistem akan mengekstrak otomatis semua pesanan, pajak PB1, dan rincian per orang.
+        </p>
+</div>
+<!-- Quick Benefit Indicators -->
+<div class="mt-space-md pt-space-sm border-t border-dashed border-outline-variant/50 grid grid-cols-3 gap-2 text-center">
+<div class="p-2 rounded-lg bg-surface-container-low/60">
+<span class="material-symbols-outlined text-primary text-headline-md mb-0.5" data-icon="bolt">bolt</span>
+<div class="font-label-xs text-label-xs text-on-surface font-bold">Deteksi Cepat</div>
+</div>
+<div class="p-2 rounded-lg bg-surface-container-low/60">
+<span class="material-symbols-outlined text-primary text-headline-md mb-0.5" data-icon="calculate">calculate</span>
+<div class="font-label-xs text-label-xs text-on-surface font-bold">Pajak Otomatis</div>
+</div>
+<div class="p-2 rounded-lg bg-surface-container-low/60">
+<span class="material-symbols-outlined text-primary text-headline-md mb-0.5" data-icon="qr_code_2">qr_code_2</span>
+<div class="font-label-xs text-label-xs text-on-surface font-bold">Siap QRIS</div>
+</div>
+</div>
+</section>
+<!-- PRIMARY ACTION CARDS (OCR Scanner vs Manual Input) -->
+<section class="space-y-space-md">
+<!-- 1. OCR Camera Trigger Card (Hero CTA) -->
+<div class="relative group cursor-pointer rounded-2xl bg-surface-container-lowest border-2 border-primary-container p-space-lg shadow-md transition-all duration-200 active:scale-[0.98] hover:border-primary">
+<div class="flex items-start justify-between">
+<div class="w-14 h-14 rounded-2xl bg-primary-container/20 border border-primary-container/30 flex items-center justify-center text-primary mb-space-sm">
+<span class="material-symbols-outlined text-3xl" data-icon="camera_alt">camera_alt</span>
+</div>
+<span class="inline-flex items-center gap-1 px-3 py-1 rounded-full bg-primary-container text-on-primary-container font-label-xs text-label-xs font-bold uppercase tracking-wider">
+            OCR Otomatis
+          </span>
+</div>
+<h2 class="font-headline-md text-headline-md text-on-surface mt-space-xs">
+          Foto / Scan Struk
+        </h2>
+<p class="font-body-md text-body-md text-on-surface-variant mt-1 leading-normal">
+          Ekstrak nama menu, jumlah porsi, dan harga seketika dari foto struk kasir thermal atau invoice kertas.
+        </p>
+<!-- Hidden File Input Trigger -->
+<input accept="image/*" capture="environment" class="hidden" id="camera-input" type="file"/>
+<div class="mt-space-md pt-space-sm flex items-center justify-between border-t border-outline-variant/30">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary text-title-md" data-icon="center_focus_strong">center_focus_strong</span>
+<span class="font-label-sm text-label-sm text-primary font-bold">Mendukung format JPG, PNG & HEIC</span>
+</div>
+<button class="px-4 py-2 bg-primary-container text-on-primary-container font-label-md text-label-md rounded-xl font-bold flex items-center gap-1 shadow-sm hover:brightness-95" onclick="document.getElementById('camera-input').click()" type="button">
+            Buka Kamera
+            <span class="material-symbols-outlined text-sm" data-icon="chevron_right">chevron_right</span>
+</button>
+</div>
+</div>
+<!-- 2. Manual Input Card (Secondary CTA) -->
+<div class="group cursor-pointer rounded-2xl bg-surface-container-lowest border border-outline-variant/50 p-space-md shadow-sm transition-all duration-150 active:scale-[0.98] hover:border-outline">
+<div class="flex items-center gap-space-md">
+<div class="w-12 h-12 rounded-xl bg-surface-container flex items-center justify-center text-on-surface-variant flex-shrink-0">
+<span class="material-symbols-outlined text-2xl" data-icon="edit_note">edit_note</span>
+</div>
+<div class="flex-1 min-w-0">
+<div class="flex items-center justify-between">
+<h3 class="font-title-md text-title-md text-on-surface">Input Manual</h3>
+<span class="material-symbols-outlined text-on-surface-variant" data-icon="arrow_forward">arrow_forward</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant truncate mt-0.5">
+              Ketik manual daftar menu, harga, dan jumlah porsi tanpa kamera.
+            </p>
+</div>
+</div>
+</div>
+</section>
+<!-- PRIVACY & OCR TIPS BENTO CARDS -->
+<section class="grid grid-cols-1 sm:grid-cols-2 gap-space-sm">
+<!-- Privacy Card -->
+<div class="rounded-2xl bg-surface-container-low border border-outline-variant/40 p-space-md flex flex-col justify-between">
+<div>
+<div class="w-9 h-9 rounded-xl bg-primary/10 text-primary flex items-center justify-center mb-space-xs">
+<span class="material-symbols-outlined text-xl" data-icon="shield_lock">shield_lock</span>
+</div>
+<h4 class="font-title-md text-title-md text-on-surface">Privasi Aman 100%</h4>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-1 leading-relaxed">
+            Foto diproses murni di browsermu (Tesseract client-side), foto tidak pernah dikirim atau disimpan di server mana pun.
+          </p>
+</div>
+<div class="mt-3 flex items-center gap-1.5 text-primary">
+<span class="material-symbols-outlined text-sm" data-icon="lock">lock</span>
+<span class="font-label-xs text-label-xs font-bold">Zero Telemetry</span>
+</div>
+</div>
+<!-- Tips Card -->
+<div class="rounded-2xl bg-tertiary-fixed/30 border border-tertiary-container/30 p-space-md flex flex-col justify-between">
+<div>
+<div class="w-9 h-9 rounded-xl bg-tertiary-container/20 text-on-tertiary-fixed-variant flex items-center justify-center mb-space-xs">
+<span class="material-symbols-outlined text-xl" data-icon="lightbulb">lightbulb</span>
+</div>
+<h4 class="font-title-md text-title-md text-on-surface">Tips Struk Jelas</h4>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-1 leading-relaxed">
+            Pastikan pencahayaan cukup, ratakan struk berkerut, dan fokuskan pada kolom nama serta nominal harga agar akurat.
+          </p>
+</div>
+<div class="mt-3 flex items-center gap-1.5 text-on-tertiary-fixed-variant">
+<span class="material-symbols-outlined text-sm" data-icon="check_circle">check_circle</span>
+<span class="font-label-xs text-label-xs font-bold">Akurasi Terbaik</span>
+</div>
+</div>
+</section>
+<!-- RECENT LOCAL SESSIONS (Browser Storage) -->
+<section class="space-y-space-sm">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-on-surface-variant text-label-md" data-icon="history">history</span>
+<h3 class="font-title-md text-title-md text-on-surface">Baru dipakai baru-baru ini</h3>
+</div>
+<button class="font-label-sm text-label-sm text-primary hover:underline font-bold" type="button">Hapus Semua</button>
+</div>
+<div class="space-y-2">
+<!-- Receipt Session 1 -->
+<div class="group flex items-center justify-between p-space-sm bg-surface-container-lowest rounded-xl border border-outline-variant/30 hover:border-primary/40 transition-colors">
+<div class="flex items-center gap-3 min-w-0">
+<div class="w-10 h-10 rounded-lg bg-surface-container-low flex items-center justify-center text-primary flex-shrink-0">
+<span class="material-symbols-outlined" data-icon="restaurant">restaurant</span>
+</div>
+<div class="min-w-0">
+<h4 class="font-title-md text-title-md text-on-surface truncate">Makan Siang Sate Khas Senayan</h4>
+<div class="flex items-center gap-2 text-on-surface-variant font-body-sm text-body-sm">
+<span>Tadi siang</span>
+<span>•</span>
+<span class="font-currency-md text-currency-md text-on-surface font-bold">Rp 235.000</span>
+<span>•</span>
+<span class="px-1.5 py-0.2 bg-primary/10 text-primary rounded text-label-xs font-bold">4 Orang</span>
+</div>
+</div>
+</div>
+<div class="flex items-center gap-1">
+<button class="p-2 text-primary hover:bg-primary/10 rounded-lg transition-transform active:scale-95" title="Buka Kembali" type="button">
+<span class="material-symbols-outlined" data-icon="open_in_new">open_in_new</span>
+</button>
+<button class="p-2 text-on-surface-variant hover:text-error hover:bg-error-container/20 rounded-lg transition-colors" title="Hapus" type="button">
+<span class="material-symbols-outlined" data-icon="delete">delete</span>
+</button>
+</div>
+</div>
+<!-- Receipt Session 2 -->
+<div class="group flex items-center justify-between p-space-sm bg-surface-container-lowest rounded-xl border border-outline-variant/30 hover:border-primary/40 transition-colors">
+<div class="flex items-center gap-3 min-w-0">
+<div class="w-10 h-10 rounded-lg bg-surface-container-low flex items-center justify-center text-primary flex-shrink-0">
+<span class="material-symbols-outlined" data-icon="coffee">coffee</span>
+</div>
+<div class="min-w-0">
+<h4 class="font-title-md text-title-md text-on-surface truncate">Kopi Janji Jiwa</h4>
+<div class="flex items-center gap-2 text-on-surface-variant font-body-sm text-body-sm">
+<span>Kemarin</span>
+<span>•</span>
+<span class="font-currency-md text-currency-md text-on-surface font-bold">Rp 68.000</span>
+<span>•</span>
+<span class="px-1.5 py-0.2 bg-primary/10 text-primary rounded text-label-xs font-bold">2 Orang</span>
+</div>
+</div>
+</div>
+<div class="flex items-center gap-1">
+<button class="p-2 text-primary hover:bg-primary/10 rounded-lg transition-transform active:scale-95" title="Buka Kembali" type="button">
+<span class="material-symbols-outlined" data-icon="open_in_new">open_in_new</span>
+</button>
+<button class="p-2 text-on-surface-variant hover:text-error hover:bg-error-container/20 rounded-lg transition-colors" title="Hapus" type="button">
+<span class="material-symbols-outlined" data-icon="delete">delete</span>
+</button>
+</div>
+</div>
+</div>
+</section>
+<!-- TACTILE FOOTNOTE / HOW IT WORKS -->
+<div class="rounded-xl border border-dashed border-outline-variant/60 p-space-sm text-center">
+<p class="font-body-sm text-body-sm text-on-surface-variant">
+        💡 <strong>Cara pakai:</strong> Scan struk → Tentukan nama teman → Bagikan tautan rincian via WhatsApp.
+      </p>
+</div>
+</main>
+<!-- BOTTOM NAVIGATION BAR (from Shared Components JSON: BottomNavBar) -->
+<!-- Active tab logic: Screen is 'Tagihan' (Home & Input Struk) -->
+<nav class="fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-margin py-space-xs max-w-md mx-auto inset-x-0 pb-safe bg-surface-container-lowest dark:bg-inverse-surface border-t border-outline-variant/40 dark:border-outline/30 shadow-md">
+<!-- Tab 1: Tagihan (ACTIVE) -->
+<a class="flex flex-col items-center justify-center bg-primary-container dark:bg-primary text-on-primary-container dark:text-on-primary rounded-xl px-4 py-1.5 transition-all duration-200 active:scale-95" href="#tagihan">
+<span class="material-symbols-outlined text-xl" data-icon="receipt">receipt</span>
+<span class="text-label-xs font-label-xs mt-0.5">Tagihan</span>
+</a>
+<!-- Tab 2: Bagi Rata (INACTIVE) -->
+<a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-surface-variant px-3 py-1.5 transition-colors duration-150 hover:text-primary dark:hover:text-inverse-primary active:scale-95" href="#bagirata">
+<span class="material-symbols-outlined text-xl" data-icon="group">group</span>
+<span class="text-label-xs font-label-xs mt-0.5">Bagi Rata</span>
+</a>
+<!-- Tab 3: Rincian (INACTIVE) -->
+<a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-surface-variant px-3 py-1.5 transition-colors duration-150 hover:text-primary dark:hover:text-inverse-primary active:scale-95" href="#rincian">
+<span class="material-symbols-outlined text-xl" data-icon="payments">payments</span>
+<span class="text-label-xs font-label-xs mt-0.5">Rincian</span>
+</a>
+</nav>
+<script>
+    // Lightweight micro-interaction for scan feedback
+    document.getElementById('camera-input').addEventListener('change', function(e) {
+      if (this.files && this.files[0]) {
+        alert('Foto struk ' + this.files[0].name + ' berhasil dipilih! Menyiapkan pemrosesan OCR offline di browsermu...');
+      }
+    });
+  </script>
+</body></html>
